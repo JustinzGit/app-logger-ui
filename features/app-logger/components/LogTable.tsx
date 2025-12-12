@@ -1,7 +1,7 @@
 import { ILog, IPagedList } from "../actions";
 
 export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog>}) {
-    const baseRow = "px-1 py-1 text-[13px] whitespace-nowrap";
+    const baseRow = "px-1 py-1 text-[13px] whitespace-nowrap cursor";
     const baseHeader = "h-[40px] bg-baylor-blue-400 sticky top-0 z-10 text-center text-[13px] text-white";
 
     return (
@@ -18,7 +18,7 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
 
             <tbody className="divide-y divide-gray-200 dark:divide-white/10">
                 {logResponse.items.map((log) => (
-                    <tr key={log.id}>
+                    <tr key={log.id} className="hover:bg-gray-300 hover:cursor-pointer">
                         <td className={`${baseRow} text-center w-[120px] pl-4 pr-3`}>{log.app}</td>
                         <td className={`${baseRow} text-center w-[90px]`}>{log.level}</td>
                         <td className={`${baseRow} text-center w-[260px]`}>{log.sourceContext}</td>
