@@ -9,13 +9,17 @@ export default function AppLogger() {
             </div>
 
             <div className="bg-green-400">
-                2
+                <div className="bg-gray-300 m-2 h-20 rounded-md">
+                    
+                </div>
             </div>
 
             <div className="col-start-2 row-start-2 min-h-0">
                 <div className="h-full flex flex-col min-h-0">
                     <div className="flex-1 min-h-0 overflow-auto">
-                        <LogTable logResponse={logResponse}/>
+                        <LogTable 
+                            logResponse={logResponse}
+                        />
                     </div>
                 </div>
             </div>
