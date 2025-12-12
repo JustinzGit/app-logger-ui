@@ -10,6 +10,14 @@
     --color-foreground: var(--foreground);
     --font-sans: var(--font-geist-sans);
     --font-mono: var(--font-geist-mono);
+    --color-baylor-gray-100: #ededed;
+    --color-baylor-gray-200: #98989873;
+    --color-baylor-gray-300: #454545;
+    --color-baylor-blue-100: #2dccd3;
+    --color-baylor-blue-200: #1863dc;
+    --color-baylor-blue-300: #293c5b;
+    --color-baylor-blue-400: #0c2340;
+
 }
 
 @media (prefers-color-scheme: dark) {
