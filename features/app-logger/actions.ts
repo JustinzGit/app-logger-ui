@@ -5,13 +5,13 @@ import { toQueryString } from "../shared/utils";
 
 export async function getLogs(params: SearchParams): Promise<IPagedList<ILog>> {
     const queryString = toQueryString(params);
-    const response = await fetch(`http://localhost:5086/Logging/Logs?${queryString}`, { cache: 'no-store' });
+    const response = await fetch(`http://localhost:5086/api/logging/logs?${queryString}`, { cache: 'no-store' });
     if (!response.ok) throw new Error("Failed to fetch logs");
     return response.json();
 }
 
 export async function getErrorCounts(): Promise<{ app: string, count: number }[]> {
-    const response = await fetch(`http://localhost:5086/Logging/ErrorCounts`, { cache: 'no-store' });
+    const response = await fetch(`http://localhost:5086/api/logging/error-counts`, { cache: 'no-store' });
     if (!response.ok) throw new Error("Failed to fetch error counts");
     return response.json();
 }
