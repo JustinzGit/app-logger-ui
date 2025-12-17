@@ -16,7 +16,7 @@ export function ErrorPanel({ errorCounts, apps }: { errorCounts: { app: string; 
     }
 
     return (
-        <div className="bg-baylor-gray-100 ml-1 mr-2 my-2 h-20 rounded-md border border-gray-300 shadow-sm dark:border-white/10 dark:shadow-none">
+        <div className="bg-baylor-gray-100 ml-1 mr-2 mt-2 h-20 rounded-md border border-gray-300 shadow-sm dark:border-white/10 dark:shadow-none">
             <div className="h-full px-3 overflow-x-auto overflow-y-hidden log-table-scroll-bar">
                 <div className="h-full flex items-center justify-start gap-4 w-max">
                     {displayCounts.map(error => (
