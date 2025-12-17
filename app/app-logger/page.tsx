@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { SearchParams } from "next/dist/server/request/search-params";
 import { IPagedList } from "@/features/shared/types";
 import LogTable from "@/features/app-logger/components/LogTable";
@@ -23,29 +24,48 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
     const logResponse: IPagedList<ILog> = await getLogs(params);
 
     return (
-        <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-1">
-            <div className="bg-gray-200 row-span-2">
-                <LogForm 
-                    apps={apps}
-                />
+        <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
+            <div className="row-span-2 flex flex-col items-center">
+                <div className="bg-white dark:bg-gray-800 w-80 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
+                    <div className="bg-linear-to-br from-baylor-blue-400 to-baylor-blue-300 p-6 flex justify-center items-center">
+                        <div className="bg-white rounded-xl p-4 shadow-lg">
+                            <Image
+                                priority
+                                width={220}
+                                height={220}
+                                alt="App Logger Logo"
+                                src="/app-logger/app-logger-logo.png"
+                                className="rounded-lg"
+                            />
+                        </div>
+                    </div>
+                    
+                    <div className="p-6 flex justify-center items-center">
+                        <LogForm
+                            apps={apps}
+                        />
+                    </div>
+                </div>
             </div>
 
             <div>
-                <ErrorPanel 
-                    errorCounts={errorCounts} 
+                <ErrorPanel
+                    errorCounts={errorCounts}
                 />
             </div>
 
             <div className="col-start-2 row-start-2 min-h-0">
-                <div className="h-full flex flex-col min-h-0">
+                <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
                     <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden log-table-scroll-bar">
                         <LogTable
                             logResponse={logResponse}
                         />
                     </div>
-                    <Pagination
-                        pagedList={logResponse}
-                    />
+                    <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                        <Pagination
+                            pagedList={logResponse}
+                        />
+                    </div>
                 </div>
             </div>
         </div>
