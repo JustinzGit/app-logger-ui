@@ -12,7 +12,7 @@ export function ErrorPanel({ errorCounts, apps }: { errorCounts: { app: string; 
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        redirect(`/app-logger?pageNumber=1&pageSize=25&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
+        redirect(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
     }
 
     return (
