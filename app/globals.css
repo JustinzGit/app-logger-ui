@@ -44,7 +44,7 @@ body {
 .scroll-bar::-webkit-scrollbar-track {
     background: lightgrey;
     border-radius: 5px;
-    margin-top: 40px;
+    margin-top: 0px;
 }
 
 .scroll-bar::-webkit-scrollbar-thumb {
