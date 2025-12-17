@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import Pagination from "@/features/app-logger/components/Pagination";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
 import LogForm from "@/features/app-logger/components/LogForm";
-import { getErrorCounts, getLogs } from "@/features/app-logger/actions";
+import { getApps, getErrorCounts, getLogs } from "@/features/app-logger/actions";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
@@ -15,16 +15,19 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        redirect(`/app-logger?pageNumber=1&pageSize=25&logDay=${day}&startDateTime=${date}`);
+        redirect(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&orderDescending=true`);
     }
 
-    const logResponse: IPagedList<ILog> = await getLogs(params);
+    const apps: string[] = await getApps();
     const errorCounts = await getErrorCounts();
+    const logResponse: IPagedList<ILog> = await getLogs(params);
 
     return (
         <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-1">
-            <div className="bg-yellow-400 row-span-2">
-                <LogForm />
+            <div className="bg-gray-200 row-span-2">
+                <LogForm 
+                    apps={apps}
+                />
             </div>
 
             <div>
