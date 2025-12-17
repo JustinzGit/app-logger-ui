@@ -57,7 +57,7 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
 
             <div className="col-start-2 row-start-2 min-h-0">
                 <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden log-table-scroll-bar">
+                    <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
                         <LogTable
                             logResponse={logResponse}
                         />

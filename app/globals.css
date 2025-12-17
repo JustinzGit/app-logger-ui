@@ -36,18 +36,18 @@ body {
 }
 
 /* Custom scrollbar for log tables */
-.log-table-scroll-bar::-webkit-scrollbar {
+.scroll-bar::-webkit-scrollbar {
     width: 7px;
     height: 5px;
 }
 
-.log-table-scroll-bar::-webkit-scrollbar-track {
+.scroll-bar::-webkit-scrollbar-track {
     background: lightgrey;
     border-radius: 5px;
     margin-top: 40px;
 }
 
-.log-table-scroll-bar::-webkit-scrollbar-thumb {
+.scroll-bar::-webkit-scrollbar-thumb {
     background: #0c2340;
     border-radius: 5px;
 }
