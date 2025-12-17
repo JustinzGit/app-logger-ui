@@ -28,15 +28,15 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
             <div className="row-span-2 flex flex-col items-center">
                 <div className="bg-white dark:bg-gray-800 w-80 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
                     <div className="bg-linear-to-br from-baylor-blue-400 to-baylor-blue-300 p-6 flex justify-center items-center">
-                        <div className="bg-white rounded-xl p-4 shadow-lg">
+                        <div className="bg-white rounded-xl p-4 shadow-lg border-2 border-gray-500 relative overflow-hidden">
                             <Image
                                 priority
                                 width={220}
                                 height={220}
                                 alt="App Logger Logo"
                                 src="/app-logger/app-logger-logo.png"
-                                className="rounded-lg"
                             />
+                            {/* <div className="absolute inset-0 animate-[shimmer_3s_ease-in-out_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent rounded-lg"></div> */}
                         </div>
                     </div>
                     
