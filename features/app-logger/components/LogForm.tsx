@@ -1,8 +1,9 @@
-'use client'
+"use client"
 
-import { FormEvent, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { MultiSelect } from '@/features/shared/components/MultiSelect';
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { MultiSelect } from "@/features/shared/components/MultiSelect";
+import { FormEvent, useEffect, useState, useTransition } from "react";
 
 interface ILogFromProps {
     apps: string[];
@@ -13,11 +14,12 @@ const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"]
 export default function LogForm({ apps }: ILogFromProps) {
     const router = useRouter();
     const today = new Date().toLocaleDateString('en-CA');
-
+    
     const [endDate, setEndDate] = useState('');
     const [endTime, setEndTime] = useState('');
     const [startDate, setStartDate] = useState('');
     const [startTime, setStartTime] = useState('');
+    const [isPending, startTransition] = useTransition();
     const [selectedApps, setSelectedApps] = useState<string[]>([]);
     const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 
@@ -56,12 +58,30 @@ export default function LogForm({ apps }: ILogFromProps) {
         if (startDateTime) query.set('startDateTime', startDateTime);
         if (endDateTime) query.set('endDateTime', endDateTime);
 
-        router.push(`/app-logger?${query.toString()}`);
+        startTransition(() => router.push(`/app-logger?${query.toString()}`));
     }
 
     return (
-        <div className="w-[300px] flex flex-col items-center">
-            <form onSubmit={handleSubmit} className='w-[80%]'>
+        <div className="relative">
+
+            <div className="bg-linear-to-br from-baylor-blue-400 to-baylor-blue-300 p-6 flex justify-center items-center">
+                <div className="bg-white rounded-xl p-4 shadow-lg border-2 border-gray-500 relative overflow-hidden">
+                    <div className="relative grid place-items-center">
+                        <Image
+                            priority
+                            width={220}
+                            height={220}
+                            alt="App Logger Logo"
+                            src="/app-logger/app-logger-logo.png"
+                        />
+                        {isPending && <div className="w-[150px] h-[150px] border-5 pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-baylor-blue-300 border-t-transparent animate-spin" />}
+                    </div>
+                    {isPending && <div className="absolute inset-0 animate-[shimmer_3s_ease-in-out_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent rounded-lg" />}
+                </div>
+            </div>
+
+            <div className="p-6 flex justify-center items-center">
+                <form onSubmit={handleSubmit} className="w-[80%]">
                 <MultiSelect
                     label='Apps'
                     items={apps}
@@ -139,14 +159,23 @@ export default function LogForm({ apps }: ILogFromProps) {
                 </div>
 
                 <div className="mt-4 flex gap-2">
-                    <button type="submit" className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded">
-                        Search
+                    <button
+                        type="submit"
+                        disabled={isPending}
+                        className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
+                        {isPending ? "Searching…" : "Search"}
                     </button>
-                    <button type="button" onClick={handleReset} className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded">
+                    
+                    <button
+                        type="button"
+                        disabled={isPending}
+                        onClick={handleReset}
+                        className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
                         Reset
                     </button>
                 </div>
-            </form>
+                </form>
+            </div>
         </div>
     )
 }
