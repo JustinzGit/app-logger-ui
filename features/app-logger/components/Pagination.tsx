@@ -4,11 +4,12 @@ import { IPagedList } from "@/features/shared/types";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ChangeEvent } from "react";
+import { useNavigationContext } from "./NavigationContext";
 
 export default function Pagination({ pagedList }: { pagedList: IPagedList<any> }) {
-    const router = useRouter();
+    const { navigate } = useNavigationContext();
     const searchParams = useSearchParams();
 
     const totalCount = pagedList.totalCount ?? 0;
@@ -21,7 +22,7 @@ export default function Pagination({ pagedList }: { pagedList: IPagedList<any> }
             if (value === undefined || value === null) return;
             params.set(key, String(value));
         });
-        router.push(`?${params.toString()}`);
+        navigate(`?${params.toString()}`);
     }
 
     function goToPreviousPage() {
