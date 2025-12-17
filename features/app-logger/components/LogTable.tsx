@@ -12,8 +12,8 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
                 <tr>
                     <th scope="col" className={`${baseHeader} w-30 rounded-tl-md`}>App</th>
                     <th scope="col" className={`${baseHeader} w-22.5`}>Level</th>
-                    <th scope="col" className={`${baseHeader} w-65`}>Namespace</th>
-                    <th scope="col" className={`${baseHeader} w-55`}>Date Time</th>
+                    <th scope="col" className={`${baseHeader} w-40`}>Namespace</th>
+                    <th scope="col" className={`${baseHeader} w-44`}>Date Time</th>
                     <th scope="col" className={`${baseHeader} w-auto rounded-tr-md`}>Message</th>
                 </tr>
             </thead>
@@ -23,12 +23,12 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
                     <tr key={log.id} className="hover:bg-gray-300 hover:cursor-pointer">
                         <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
                         <td className={`${baseRow} text-center w-22.5`}>
-                            <span className={`font-semibold inline-flex items-center rounded-md px-1.5 py-0.5 text-xs ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
+                            <span className={`font-semibold flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs w-[80%] ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
                                 {levelConfig[log.level as LogLevel]?.label ?? log.level}
                             </span>
                         </td>
-                        <td className={`${baseRow} text-center w-65`}>{log.sourceContext?.split(".").pop() ?? "N/A"}</td>
-                        <td className={`${baseRow} text-center w-55`}>{formatLogTime(log.logTime)}</td>
+                        <td className={`${baseRow} text-center w-40`}>{log.sourceContext?.split(".").pop() ?? "N/A"}</td>
+                        <td className={`${baseRow} text-center w-44`}>{formatLogTime(log.logTime)}</td>
                         <td className={`${baseRow} min-w-37.5 max-w-75 overflow-hidden text-ellipsis whitespace-nowrap`}>{log.message}</td>
                     </tr>
                 ))}
