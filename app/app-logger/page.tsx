@@ -7,6 +7,7 @@ import Pagination from "@/features/app-logger/components/Pagination";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
 import LogForm from "@/features/app-logger/components/LogForm";
 import { getApps, getErrorCounts, getLogs } from "@/features/app-logger/actions";
+import { NavigationProvider } from "@/features/app-logger/components/NavigationContext";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
@@ -23,34 +24,36 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
     const logResponse: IPagedList<ILog> = await getLogs(params);
 
     return (
-        <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
-            <div className="row-span-2 flex flex-col items-center">
-                <div className="mt-2 bg-white dark:bg-gray-800 w-80 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
-                    <LogForm apps={apps} />
-                </div>
-            </div>
-
-            <div>
-                <ErrorPanel
-                    apps={apps}
-                    errorCounts={errorCounts}
-                />
-            </div>
-
-            <div className="col-start-2 row-start-2 min-h-0">
-                <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                    <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
-                        <LogTable
-                            logResponse={logResponse}
-                        />
-                    </div>
-                    <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                        <Pagination
-                            pagedList={logResponse}
-                        />
+        <NavigationProvider>
+            <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
+                <div className="row-span-2 flex flex-col items-center">
+                    <div className="mt-2 bg-white dark:bg-gray-800 w-80 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
+                        <LogForm apps={apps} />
                     </div>
                 </div>
+
+                <div>
+                    <ErrorPanel
+                        apps={apps}
+                        errorCounts={errorCounts}
+                    />
+                </div>
+
+                <div className="col-start-2 row-start-2 min-h-0">
+                    <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                        <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
+                            <LogTable
+                                logResponse={logResponse}
+                            />
+                        </div>
+                        <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                            <Pagination
+                                pagedList={logResponse}
+                            />
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </NavigationProvider>
     );
 }

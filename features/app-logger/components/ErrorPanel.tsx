@@ -1,8 +1,9 @@
 'use client'
 
-import { redirect } from "next/navigation";
+import { useNavigationContext } from "./NavigationContext";
 
 export function ErrorPanel({ errorCounts, apps }: { errorCounts: { app: string; count: number }[], apps: string[] }) {
+    const { navigate } = useNavigationContext();
 
     const countedApps = errorCounts.map(e => e.app);
     const zeroCountApps = apps.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
@@ -12,7 +13,7 @@ export function ErrorPanel({ errorCounts, apps }: { errorCounts: { app: string; 
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        redirect(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
+        navigate(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
     }
 
     return (

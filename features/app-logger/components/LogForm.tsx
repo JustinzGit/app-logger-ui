@@ -1,9 +1,9 @@
 "use client"
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
-import { FormEvent, useEffect, useState, useTransition } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { useNavigationContext } from "./NavigationContext";
 
 interface ILogFromProps {
     apps: string[];
@@ -12,14 +12,13 @@ interface ILogFromProps {
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"]
 
 export default function LogForm({ apps }: ILogFromProps) {
-    const router = useRouter();
+    const { isPending, navigate } = useNavigationContext();
     const today = new Date().toLocaleDateString('en-CA');
     
     const [endDate, setEndDate] = useState('');
     const [endTime, setEndTime] = useState('');
     const [startDate, setStartDate] = useState('');
     const [startTime, setStartTime] = useState('');
-    const [isPending, startTransition] = useTransition();
     const [selectedApps, setSelectedApps] = useState<string[]>([]);
     const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
 
@@ -58,7 +57,7 @@ export default function LogForm({ apps }: ILogFromProps) {
         if (startDateTime) query.set('startDateTime', startDateTime);
         if (endDateTime) query.set('endDateTime', endDateTime);
 
-        startTransition(() => router.push(`/app-logger?${query.toString()}`));
+        navigate(`/app-logger?${query.toString()}`);
     }
 
     return (
