@@ -48,8 +48,8 @@ export default function Pagination({ pagedList }: { pagedList: IPagedList<any> }
                     </div>
                 )}
 
-                <div className="flex items-center gap-4 text-sm text-gray-700 dark:text-gray-300">
-                    <div className="flex items-center gap-2">
+                <div className="flex items-center gap-4 text-sm text-gray-700 dark:text-gray-300 whitespace-nowrap">
+                    <div className="flex items-center gap-2 whitespace-nowrap shrink-0">
                         <span>Rows per page:</span>
 
                         <div className="grid grid-cols-1">
@@ -71,7 +71,7 @@ export default function Pagination({ pagedList }: { pagedList: IPagedList<any> }
                         </div>
                     </div>
 
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 whitespace-nowrap shrink-0">
                         <nav aria-label="Pagination" className="isolate inline-flex items-center gap-1">
                             <button
                                 type="button"
