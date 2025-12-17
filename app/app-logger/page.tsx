@@ -27,7 +27,7 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
         <NavigationProvider>
             <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
                 <div className="row-span-2 flex flex-col items-center">
-                    <div className="mt-2 bg-white dark:bg-gray-800 w-80 rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
+                    <div className="mt-2 bg-white dark:bg-gray-800 w-75 h-full rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
                         <LogForm apps={apps} />
                     </div>
                 </div>
