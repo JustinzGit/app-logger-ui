@@ -59,9 +59,9 @@ export default function Pagination({ pagedList }: { pagedList: IPagedList<any> }
                                 onChange={handlePageSizeChange}
                                 value={String(pagedList.pageSize)}
                                 className="cursor-pointer col-start-1 row-start-1 appearance-none rounded-md bg-white py-1 pr-7 pl-2 text-sm outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-indigo-500">
-                                <option value="25">25</option>
-                                <option value="50">50</option>
                                 <option value="100">100</option>
+                                <option value="150">150</option>
+                                <option value="200">200</option>
                             </select>
 
                             <ExpandMoreIcon
