@@ -50,6 +50,7 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
 
             <div>
                 <ErrorPanel
+                    apps={apps}
                     errorCounts={errorCounts}
                 />
             </div>
