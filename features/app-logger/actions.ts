@@ -15,3 +15,9 @@ export async function getErrorCounts(): Promise<{ app: string, count: number }[]
     if (!response.ok) throw new Error("Failed to fetch error counts");
     return response.json();
 }
+
+export async function getApps(): Promise<string[]> {
+    const response = await fetch(`http://localhost:5086/api/logging/apps`, { cache: 'no-store' });
+    if (!response.ok) throw new Error("Failed to fetch apps");
+    return response.json();
+}
