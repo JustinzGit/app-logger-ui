@@ -7,34 +7,53 @@ interface SearchMessagesProps {
 }
 
 const PROCESSING_MESSAGES = [
-    "🔬 Analyzing logs for patterns...",
-    "🧬 Cross-referencing genetic markers...",
-    "⚛️ Quantum tunneling through data...",
-    "🧪 Running CRISPR analysis...",
-    "📊 Calculating probability curves...",
-    "🔍 Searching for the meaning of logs...",
-    "💡 Decoding the universe one log at a time...",
-    "🚀 Launching into the log stratosphere...",
-    "🎯 Pinpointing the exact moment everything made sense...",
-    "⏰ Rewinding the spacetime log continuum...",
+    "🤐 No AI to see here...",
+    "👻 These aren't the logs you're looking for...",
+    "😬 Oh jeez, what's broken?...",
+    "🧬 Baylor Genetics huh? Nice place ya got here...",
+    "📊 How many apps you guys got?...",
+    "⏳ This is taking a while...",
+    "🔍 Still searching the void...",
+    "💻 Turning it off and on again...",
+    "🎯 Almost there... maybe...",
+    "🐌 Slow and steady wins the race...",
+    "🧠 Using all my brain cells here...",
+    "⚡ Generating sparks...",
+    "🎭 This is fine...",
+    "😴 Definitely not sleeping...",
+    "🎸 Playing sick beats while I search...",
+    "📧 Getting that answer to Andrew for you...",
+    "🙄 It's always SLIMS...",
+    "👀 You're checking the logs right?...",
+    "🧬 I got this...it's in my genes 😉...",
+    "🌙 Sorry I don't have a dark mode yet...",
+    "🎫 Just send it to GT Support...",
+    "⭐ If I had to story point you, you'd be a ten 😉...",
 ];
 
 export function SearchMessages({ isPending }: SearchMessagesProps) {
     const [messageIndex, setMessageIndex] = useState(0);
     const [displayedText, setDisplayedText] = useState('');
+    const [shouldShow, setShouldShow] = useState(false);
 
     // Set random initial message when search starts
     useEffect(() => {
         if (isPending) {
+            setShouldShow(true);
             setMessageIndex(Math.floor(Math.random() * PROCESSING_MESSAGES.length));
             setDisplayedText('');
+        } else {
+            // Delay hiding for 1 second after isPending becomes false
+            const hideTimeout = setTimeout(() => {
+                setShouldShow(false);
+            }, 1000);
+            return () => clearTimeout(hideTimeout);
         }
     }, [isPending]);
 
     // Typewriter effect
     useEffect(() => {
         if (!isPending) {
-            setDisplayedText('');
             return;
         }
 
@@ -50,19 +69,19 @@ export function SearchMessages({ isPending }: SearchMessagesProps) {
                 setTimeout(() => {
                     setMessageIndex(Math.floor(Math.random() * PROCESSING_MESSAGES.length));
                     setDisplayedText('');
-                }, 1500);
+                }, 2000);
                 clearInterval(typeInterval);
             }
-        }, 50);
+        }, 30);
 
         return () => clearInterval(typeInterval);
     }, [isPending, messageIndex]);
 
-    if (!isPending) return null;
+    if (!shouldShow) return null;
 
     return (
-        <div className="mt-4 p-4 bg-linear-to-r from-baylor-blue-100/10 to-transparent rounded-md min-h-12 flex items-center">
-            <div className="text-sm text-gray-700 dark:text-gray-300 font-mono">
+        <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800/50 rounded-md min-h-12 flex items-center">
+            <div className="text-sm text-baylor-blue-400 dark:text-white font-mono">
                 {displayedText}
                 <span className="animate-blink">▌</span>
             </div>
