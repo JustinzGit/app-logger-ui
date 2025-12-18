@@ -1,7 +1,7 @@
 'use client'
 
-import { ILog } from "@/features/app-logger/types";
-import { formatLogTime } from "@/features/app-logger/utils";
+import { ILog, LogLevel } from "@/features/app-logger/types";
+import { formatLogTime, levelConfig } from "@/features/app-logger/utils";
 
 interface LogDialogProps {
     logs: ILog[];
@@ -104,7 +104,13 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                         </div>
 
                         <div>
-                            <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Message</label>
+                            <div className="flex items-center gap-2">
+                                <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Message</label>
+                                <div className="w-px h-4 bg-gray-400 dark:bg-gray-600"></div>
+                                <span className={`font-semibold rounded-md px-2 py-0.5 text-xs ${levelConfig[currentLog.level as LogLevel]?.badgeColor}`}>
+                                    {levelConfig[currentLog.level as LogLevel]?.label ?? currentLog.level}
+                                </span>
+                            </div>
                             <div className="mt-2 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
                                 {isJsonMessage ? (
                                     <div className="space-y-2">

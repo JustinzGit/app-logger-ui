@@ -2,8 +2,8 @@
 // TODO: must be client?
 
 import { IPagedList } from "@/features/shared/types";
-import { ILog } from "@/features/app-logger/types";
-import { formatLogTime } from "@/features/app-logger/utils";
+import { ILog, LogLevel } from "@/features/app-logger/types";
+import { formatLogTime, levelConfig } from "@/features/app-logger/utils";
 import { useState } from "react";
 import LogDialog from "./LogDialog";
 
@@ -30,8 +30,7 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
                         <tr
                             key={log.id}
                             onClick={() => setSelectedLogIndex(index)}
-                            className="hover:bg-gray-300 hover:cursor-pointer"
-                        >
+                            className="hover:bg-gray-300 hover:cursor-pointer">
                             <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
                             <td className={`${baseRow} text-center w-22.5`}>
                                 <span className={`font-semibold flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs w-[80%] ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
@@ -55,24 +54,3 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
         </>
     )
 }
-
-type LogLevel = "Debug" | "Information" | "Warning" | "Error";
-
-const levelConfig: Record<LogLevel, { label: string; badgeColor: string }> = {
-    Debug: {
-        label: "DEBUG",
-        badgeColor: "text-orange-700 bg-orange-100 dark:bg-orange-400/10 dark:text-orange-400",
-    },
-    Information: {
-        label: "INFO",
-        badgeColor: "text-blue-700 bg-blue-100 dark:bg-blue-400/10 dark:text-blue-400",
-    },
-    Warning: {
-        label: "WARN",
-        badgeColor: "text-yellow-700 bg-yellow-100 dark:bg-yellow-400/10 dark:text-yellow-400",
-    },
-    Error: {
-        label: "ERROR",
-        badgeColor: "text-red-700 bg-red-100 dark:bg-red-400/10 dark:text-red-400",
-    },
-};

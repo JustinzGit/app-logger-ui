@@ -10,3 +10,5 @@ export interface ILog {
     exception: string | null;
     account: string | null;
 }
+
+export type LogLevel = "Debug" | "Information" | "Warning" | "Error";
