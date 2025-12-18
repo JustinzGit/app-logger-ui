@@ -48,33 +48,31 @@ export default function Loading() {
         "[WARN] Natural selection buffer overflow",
     ];
 
+    const rightLogLines = logLines.map(line => {
+        const match = line.match(/^\[(\w+)\] (.+)$/);
+        if (match) {
+            return `${match[2]} [${match[1]}]`;
+        }
+        return line;
+    });
+
     return (
         <div className="fixed inset-0 bg-baylor-blue-400 flex items-center justify-center overflow-hidden">
 
             {/* Left side logs */}
-            <div className="absolute left-4 top-0 bottom-0 w-64 flex flex-col opacity-20 overflow-hidden">
-                <div className="animate-[scrollUp_6s_linear_infinite] space-y-2 text-xs text-white font-mono">
-                    {[...logLines, ...logLines].map((line, i) => (
+            <div className="absolute left-4 top-0 bottom-0 w-100 opacity-20 overflow-hidden">
+                <div className="animate-[scrollUp_20s_linear_infinite] space-y-2 text-xs text-white font-mono">
+                    {[...logLines, ...logLines, ...logLines].map((line, i) => (
                         <div key={i} className="whitespace-nowrap">{line}</div>
-                    ))}
-                </div>
-                <div className="animate-[scrollUp_6s_linear_infinite] space-y-2 text-xs text-white font-mono">
-                    {[...logLines, ...logLines].map((line, i) => (
-                        <div key={`dup-${i}`} className="whitespace-nowrap">{line}</div>
                     ))}
                 </div>
             </div>
 
             {/* Right side logs */}
-            <div className="absolute right-4 top-0 bottom-0 w-64 flex flex-col opacity-20 overflow-hidden">
-                <div className="animate-[scrollUp_4s_linear_infinite] space-y-2 text-xs text-white font-mono">
-                    {[...logLines, ...logLines].map((line, i) => (
+            <div className="absolute right-4 top-0 bottom-0 w-100 opacity-20 overflow-hidden text-right">
+                <div className="animate-[scrollUp_35s_linear_infinite] space-y-2 text-xs text-white font-mono">
+                    {[...rightLogLines, ...rightLogLines, ...rightLogLines].map((line, i) => (
                         <div key={i} className="whitespace-nowrap">{line}</div>
-                    ))}
-                </div>
-                <div className="animate-[scrollUp_4s_linear_infinite] space-y-2 text-xs text-white font-mono">
-                    {[...logLines, ...logLines].map((line, i) => (
-                        <div key={`dup-${i}`} className="whitespace-nowrap">{line}</div>
                     ))}
                 </div>
             </div>
