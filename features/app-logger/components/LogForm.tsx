@@ -4,6 +4,7 @@ import Image from "next/image";
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigationContext } from "./NavigationContext";
+import { SearchMessages } from "./SearchMessages";
 
 interface ILogFromProps {
     apps: string[];
@@ -32,12 +33,12 @@ export default function LogForm({ apps }: ILogFromProps) {
 
 
     function handleReset() {
-        setSelectedApps([]);
-        setSelectedLevels([]);
-        setStartDate('');
-        setStartTime('');
         setEndDate('');
         setEndTime('');
+        setStartDate('');
+        setStartTime('');
+        setSelectedApps([]);
+        setSelectedLevels([]);
     }
 
     function handleSubmit(event: FormEvent) {
@@ -192,6 +193,7 @@ export default function LogForm({ apps }: ILogFromProps) {
                     </div>
                 </form>
             </div>
+            <SearchMessages isPending={isPending} />
         </div>
     )
 }
