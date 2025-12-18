@@ -63,7 +63,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems }: IMulti
                                     onChange={() => toggleItem(item)}
                                     sx={{ color: '#989898', '&.Mui-checked': { color: '#0c2340' } }}
                                 />
-                                <span>{item}</span>
+                                <span title={item} className="ml-1 flex-1 min-w-0 truncate [direction:rtl] text-left">{item}</span>
                             </label>
                         )
                     })}

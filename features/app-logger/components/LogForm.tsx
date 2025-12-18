@@ -7,11 +7,12 @@ import { useNavigationContext } from "./NavigationContext";
 
 interface ILogFromProps {
     apps: string[];
+    namespaces: string[];
 }
 
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"]
 
-export default function LogForm({ apps }: ILogFromProps) {
+export default function LogForm({ apps, namespaces }: ILogFromProps) {
     const { isPending, navigate } = useNavigationContext();
     const today = new Date().toLocaleDateString('en-CA');
 
@@ -21,6 +22,9 @@ export default function LogForm({ apps }: ILogFromProps) {
     const [startTime, setStartTime] = useState('');
     const [selectedApps, setSelectedApps] = useState<string[]>([]);
     const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
+    const [selectedNamespaces, setSelectedNamespaces] = useState<string[]>([]);
+    const [excludedNamespaces, setExcludedNamespaces] = useState<string[]>([]);
+
 
     useEffect(() => {
         if (startDate && !startTime) setStartTime('00:00');
@@ -38,6 +42,8 @@ export default function LogForm({ apps }: ILogFromProps) {
         setStartTime('');
         setSelectedApps([]);
         setSelectedLevels([]);
+        setSelectedNamespaces([]);
+        setExcludedNamespaces([]);
     }
 
     function handleSubmit(event: FormEvent) {
@@ -54,6 +60,8 @@ export default function LogForm({ apps }: ILogFromProps) {
         const query = new URLSearchParams({ pageNumber: '1', pageSize: '100' });
         selectedApps.forEach(a => query.append('apps', a));
         selectedLevels.forEach(l => query.append('levels', l));
+        selectedNamespaces.forEach(n => query.append('includedNamespaces', n));
+        excludedNamespaces.forEach(n => query.append('excludedNamespaces', n));
         if (startDateTime) query.set('startDateTime', startDateTime);
         if (endDateTime) query.set('endDateTime', endDateTime);
 
@@ -108,6 +116,21 @@ export default function LogForm({ apps }: ILogFromProps) {
                         selectedItems={selectedLevels}
                         onSelection={setSelectedLevels}
                     />
+
+                    <MultiSelect
+                        label='Included Namespaces'
+                        items={namespaces}
+                        selectedItems={selectedNamespaces}
+                        onSelection={setSelectedNamespaces}
+                    />
+
+                    <MultiSelect
+                        label='Excluded Namespaces'
+                        items={namespaces}
+                        selectedItems={excludedNamespaces}
+                        onSelection={setExcludedNamespaces}
+                    />
+
                     <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div className="relative">
                             <label htmlFor="startDate" className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition peer-focus:text-baylor-blue-100 dark:text-gray-400">
