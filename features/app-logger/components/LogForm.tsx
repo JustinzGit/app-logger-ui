@@ -91,7 +91,7 @@ export default function LogForm({ apps }: ILogFromProps) {
             <div className="p-4 flex justify-center items-center">
                 <form onSubmit={handleSubmit} className="w-full">
                     <div className="mb-4 flex justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
-                        <span className="uppercase tracking-wide">Filter Logs</span>
+                        <span className="uppercase tracking-wide">APP LOGGER</span>
                     </div>
 
                     <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
