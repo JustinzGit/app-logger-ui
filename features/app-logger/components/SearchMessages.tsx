@@ -29,6 +29,17 @@ const PROCESSING_MESSAGES = [
     "🌙 Sorry I don't have a dark mode yet...",
     "🎫 Just send it to GT Support...",
     "⭐ If I had to story point you, you'd be a ten 😉...",
+    "☕ One more coffee and I'll find it...",
+    "🐛 Not a bug, it's a feature!...",
+    "📝 Debugging is like being a detective...",
+    "⌨️ Ctrl+Alt+Find your logs...",
+    "🖱️ Clicking faster won't make it go faster...",
+    "💾 Saving the day... slowly...",
+    "📡 Transmitting thoughts into the void...",
+    "🔐 Nobody will ever know what went wrong...",
+    "👨‍💻 Stack overflow? More like stack of logs!...",
+    "🤖 I'm not a real AI... yet...",
+    "🔧 Have you tried a hard refresh?...",
 ];
 
 export function SearchMessages({ isPending }: SearchMessagesProps) {
