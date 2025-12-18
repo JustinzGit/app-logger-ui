@@ -84,3 +84,12 @@ body {
         opacity: 0.25;
     }
 }
+
+@keyframes scrollUp {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(-100%);
+    }
+}
