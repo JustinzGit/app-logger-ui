@@ -1,16 +1,24 @@
 'use client'
-// TODO: must be client?
 
 import { IPagedList } from "@/features/shared/types";
 import { ILog, LogLevel } from "@/features/app-logger/types";
 import { formatLogTime, levelConfig } from "@/features/app-logger/utils";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import LogDialog from "./LogDialog";
+import StraightIcon from '@mui/icons-material/Straight';
 
 export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog> }) {
+    const [isDescending, setIsDescending] = useState(true);
     const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
+
     const baseRow = "px-1 py-1 text-[13px] whitespace-nowrap cursor";
     const baseHeader = "h-10 bg-baylor-blue-400 sticky top-0 z-10 text-center text-[13px] text-white";
+
+    const sortedItems = useMemo(() => {
+        const items = [...logResponse.items];
+        items.sort((a, b) => (isDescending ? b.id - a.id : a.id - b.id));
+        return items;
+    }, [logResponse.items, isDescending]);
 
     return (
         <>
@@ -20,13 +28,24 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
                         <th scope="col" className={`${baseHeader} w-30 rounded-tl-md`}>App</th>
                         <th scope="col" className={`${baseHeader} w-22.5`}>Level</th>
                         <th scope="col" className={`${baseHeader} w-40`}>Namespace</th>
-                        <th scope="col" className={`${baseHeader} w-44`}>Date Time</th>
+                        <th scope="col" className={`${baseHeader} w-44`}>
+                            <div className="flex items-center justify-center gap-1">
+                                <span>Date Time</span>
+                                <button
+                                    type="button"
+                                    title={isDescending ? 'Descending' : 'Ascending'}
+                                    onClick={() => setIsDescending((prev) => !prev)}
+                                    className="cursor-pointer rounded hover:bg-white/10">
+                                    <StraightIcon className={`transition-transform duration-200 ${isDescending ? 'rotate-180' : 'rotate-0'}`} />
+                                </button>
+                            </div>
+                        </th>
                         <th scope="col" className={`${baseHeader} w-auto rounded-tr-md`}>Message</th>
                     </tr>
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 dark:divide-white/10">
-                    {logResponse.items.map((log, index) => (
+                    {sortedItems.map((log, index) => (
                         <tr
                             key={log.id}
                             onClick={() => setSelectedLogIndex(index)}
