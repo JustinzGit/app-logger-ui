@@ -70,17 +70,19 @@ export default function LogForm({ apps }: ILogFromProps) {
 
     return (
         <div className="relative">
-            <div className="bg-linear-to-br from-baylor-blue-400 to-baylor-blue-300 p-6 flex justify-center items-center">
-                <div className="bg-white rounded-xl p-4 shadow-lg border-2 border-gray-500 relative overflow-hidden">
+            <div className="bg-linear-to-br from-baylor-blue-400 to-baylor-blue-300 p-4 flex justify-center items-center">
+                <div className="bg-slate-50 dark:bg-gray-900 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 relative overflow-hidden">
                     <div onClick={onLogoClick} className="cursor-pointer relative grid place-items-center">
+                        <div className="absolute inset-0 rounded-full opacity-20 blur-3xl bg-linear-to-b from-baylor-blue-200 via-baylor-blue-100 to-transparent dark:from-baylor-blue-300 dark:via-baylor-blue-300/50 animate-[floatAround_3s_ease-in-out_infinite]" />
                         <Image
                             priority
                             width={220}
                             height={220}
                             alt="App Logger Logo"
                             src="/app-logger/app-logger-logo.png"
+                            className="relative z-10"
                         />
-                        {isPending && <div className="w-[150px] h-[150px] border-5 pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-baylor-blue-300 border-t-transparent animate-spin" />}
+                        {isPending && <div className="w-[150px] h-[150px] border-5 pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-baylor-blue-300 border-t-transparent animate-spin z-20" />}
                     </div>
                     {isPending && <div className="absolute inset-0 animate-[shimmer_3s_ease-in-out_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent rounded-lg" />}
                 </div>
@@ -88,6 +90,11 @@ export default function LogForm({ apps }: ILogFromProps) {
 
             <div className="p-4 flex justify-center items-center">
                 <form onSubmit={handleSubmit} className="w-full">
+                    <div className="mb-4 flex justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
+                        <span className="uppercase tracking-wide">Filter Logs</span>
+                    </div>
+
+                    <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
                     <MultiSelect
                         label='Apps'
                         items={apps}
@@ -112,7 +119,7 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-white px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
 
@@ -128,7 +135,7 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 value={startTime}
                                 onChange={(e) => setStartTime(e.target.value)}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-white px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
 
@@ -144,7 +151,7 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-white px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
 
@@ -160,12 +167,12 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 value={endTime}
                                 onChange={(e) => setEndTime(e.target.value)}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-white px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
                     </div>
 
-                    <div className="mt-4 flex gap-2">
+                    <div className="mt-6 pt-4 flex gap-2 border-t border-gray-200 dark:border-white/10">
                         <button
                             type="submit"
                             disabled={isPending}

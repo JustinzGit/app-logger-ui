@@ -50,7 +50,7 @@ export function MultiSelect({ label, items, onSelection }: IMultiSelectProps) {
                 <div
                     onClick={() => isSelected(!selected)}
                     title={Array.from(selectedItems).join(', ')}
-                    className="h-[54px] cursor-pointer appearance-none rounded-md bg-white py-1.5 pr-10 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100">
+                    className="h-[54px] cursor-pointer appearance-none rounded-md bg-gray-50 py-1.5 pr-10 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100">
                     {displayLabel}
                 </div>
 
