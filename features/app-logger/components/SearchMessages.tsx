@@ -72,7 +72,7 @@ export function SearchMessages({ isPending }: SearchMessagesProps) {
                 }, 2000);
                 clearInterval(typeInterval);
             }
-        }, 30);
+        }, 25);
 
         return () => clearInterval(typeInterval);
     }, [isPending, messageIndex]);
