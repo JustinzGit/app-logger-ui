@@ -37,27 +37,21 @@ export function MultiSelect({ label, items, onSelection }: IMultiSelectProps) {
     }
 
     const displayLabel = (() => {
-        if (selectedItems.size === 0) return label
-        const values = Array.from(selectedItems)
-        if (values.length === 1) return values[0]
-        return `${values[0]}, +${values.length - 1}`
+        if (selectedItems.size === 0) return label;
+        return Array.from(selectedItems).join(', ');
     })();
 
     return (
-        <div ref={rootRef} className="mt-2 relative w-full">
+        <div ref={rootRef} className="mt-2 relative w-full min-w-0">
 
-            <div className="relative w-full">
+            <div className="relative w-full min-w-0">
                 <div
                     onClick={() => isSelected(!selected)}
                     title={Array.from(selectedItems).join(', ')}
-                    className="h-[54px] cursor-pointer appearance-none rounded-md bg-gray-50 py-1.5 pr-10 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100">
-                    {displayLabel}
+                    className="h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 py-1.5 pr-10 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100">
+                    <span className="truncate whitespace-nowrap">{displayLabel}</span>
                 </div>
-
-                <ExpandMoreIcon
-                    aria-hidden="true"
-                    className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4 dark:text-gray-400"
-                />
+                <ExpandMoreIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4 dark:text-gray-400" />
             </div>
 
             {selected && (
