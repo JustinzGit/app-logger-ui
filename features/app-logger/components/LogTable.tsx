@@ -1,4 +1,5 @@
 'use client'
+// TODO: must be client?
 
 import { IPagedList } from "@/features/shared/types";
 import { ILog } from "@/features/app-logger/types";
