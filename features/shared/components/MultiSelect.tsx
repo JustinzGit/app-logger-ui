@@ -38,19 +38,18 @@ export function MultiSelect({ label, items, onSelection, selectedItems }: IMulti
 
     return (
         <div ref={rootRef} className="mt-2 relative w-full min-w-0">
-
-            <div className="relative w-full min-w-0">
+            <div className="relative w-full min-w-0 ">
                 <div
                     title={selectedItems.join(', ')}
                     onClick={() => isSelected(!selected)}
-                    className="h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 py-1.5 pr-10 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100">
+                    className={`${selected ? 'outline-2 outline-baylor-blue-100' : 'outline-1 outline-gray-300'} h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 py-1.5 pr-10 pl-3 text-base text-gray-900 -outline-offset-1 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100"`}>
                     <span className="truncate whitespace-nowrap">{displayLabel}</span>
                 </div>
                 <ExpandMoreIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4 dark:text-gray-400" />
             </div>
 
             {selected && (
-                <div className="scroll-bar absolute left-0 right-0 z-20 mt-1 cursor-pointer rounded-md bg-gray-50 py-1.5 pr-3 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-baylor-blue-100 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto space-y-1">
+                <div className="scroll-bar absolute left-0 right-0 z-20 mt-1 cursor-pointer rounded-md bg-gray-50 py-1.5 pr-3 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto space-y-1">
                     {items.map((item, i) => {
                         const checked = selectedItems.includes(item);
                         return (
