@@ -119,9 +119,11 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 id="startDate"
                                 name="startDate"
                                 value={startDate}
+                                onMouseDown={(e) => e.preventDefault()}
                                 onChange={(e) => setStartDate(e.target.value)}
+                                style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
 
@@ -135,9 +137,11 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 id="startTime"
                                 name="startTime"
                                 value={startTime}
+                                onMouseDown={(e) => e.preventDefault()}
                                 onChange={(e) => setStartTime(e.target.value)}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
+                                className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
 
@@ -151,9 +155,11 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 id="endDate"
                                 name="endDate"
                                 value={endDate}
+                                onMouseDown={(e) => e.preventDefault()}
                                 onChange={(e) => setEndDate(e.target.value)}
+                                style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
 
@@ -167,9 +173,11 @@ export default function LogForm({ apps }: ILogFromProps) {
                                 id="endTime"
                                 name="endTime"
                                 value={endTime}
+                                onMouseDown={(e) => e.preventDefault()}
                                 onChange={(e) => setEndTime(e.target.value)}
+                                style={{ userSelect: 'none', WebkitUserSelect: 'none' }}
                                 onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                                className="cursor-pointer peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                                className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                             />
                         </div>
                     </div>

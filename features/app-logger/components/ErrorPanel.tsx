@@ -24,7 +24,7 @@ export function ErrorPanel({ errorCounts, apps }: { errorCounts: { app: string; 
                         <div
                             key={error.app}
                             onClick={() => showAppErrors(error.app)}
-                            className="relative cursor-pointer bg-stone-50 h-10 px-3 rounded-lg text-sm flex items-center justify-center border border-stone-300 shadow-sm whitespace-nowrap shrink-0 dark:bg-white/10 dark:border-white/10 dark:text-white text-[13px]">
+                            className="select-none relative cursor-pointer bg-stone-50 h-10 px-3 rounded-lg text-sm flex items-center justify-center border border-stone-300 shadow-sm whitespace-nowrap shrink-0 dark:bg-white/10 dark:border-white/10 dark:text-white text-[13px]">
                             {error.app}
 
                             <span className={`${error.count > 0 ? 'bg-red-600' : 'bg-baylor-blue-200'} absolute -top-2 -right-2 inline-flex items-center justify-center h-5 min-w-5 rounded-full px-1 text-xs font-semibold text-white ring-2 ring-stone-50 dark:ring-gray-900`}>
