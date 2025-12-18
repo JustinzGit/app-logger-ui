@@ -2,6 +2,8 @@
 
 import { ILog, LogLevel } from "@/features/app-logger/types";
 import { formatLogTime, levelConfig } from "@/features/app-logger/utils";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 interface LogDialogProps {
     logs: ILog[];
@@ -144,18 +146,18 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                 </div>
 
                 {/* Footer with navigation */}
-                <div className="flex items-center justify-between p-4 border-t border-gray-200 dark:border-gray-700">
+                <div className="flex items-center justify-center gap-4 p-4 border-t border-gray-200 dark:border-gray-700">
                     <button
                         onClick={handlePrevious}
                         disabled={selectedIndex === 0}
-                        className="px-4 py-2 text-sm font-medium text-white bg-baylor-blue-400 rounded hover:bg-baylor-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                        ← Previous
+                        className="cursor-pointer px-3 py-2 text-white bg-baylor-blue-400 rounded hover:bg-baylor-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                        <ChevronLeftIcon />
                     </button>
                     <button
                         onClick={handleNext}
                         disabled={selectedIndex === totalLogs - 1}
-                        className="px-4 py-2 text-sm font-medium text-white bg-baylor-blue-400 rounded hover:bg-baylor-blue-300 disabled:opacity-50 disabled:cursor-not-allowed">
-                        Next →
+                        className="cursor-pointer px-3 py-2 text-white bg-baylor-blue-400 rounded hover:bg-baylor-blue-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center">
+                        <ChevronRightIcon />
                     </button>
                 </div>
             </div>
