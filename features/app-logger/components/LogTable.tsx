@@ -33,7 +33,7 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
                             className="hover:bg-gray-300 hover:cursor-pointer">
                             <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
                             <td className={`${baseRow} text-center w-22.5`}>
-                                <span className={`font-semibold flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs w-[80%] ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
+                                <span className={`w-15 font-semibold inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
                                     {levelConfig[log.level as LogLevel]?.label ?? log.level}
                                 </span>
                             </td>
