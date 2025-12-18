@@ -98,12 +98,14 @@ export default function LogForm({ apps }: ILogFromProps) {
                     <MultiSelect
                         label='Apps'
                         items={apps}
+                        selectedItems={selectedApps}
                         onSelection={setSelectedApps}
                     />
 
                     <MultiSelect
                         label='Levels'
                         items={LEVELS}
+                        selectedItems={selectedLevels}
                         onSelection={setSelectedLevels}
                     />
                     <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
