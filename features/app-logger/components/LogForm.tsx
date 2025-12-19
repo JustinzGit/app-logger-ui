@@ -6,13 +6,13 @@ import { FormEvent, useEffect, useState } from "react";
 import { useNavigationContext } from "./NavigationContext";
 
 interface ILogFromProps {
-    apps: string[];
+    appNames: string[];
     namespaces: string[];
 }
 
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"]
 
-export default function LogForm({ apps, namespaces }: ILogFromProps) {
+export default function LogForm({ appNames, namespaces }: ILogFromProps) {
     const { isPending, navigate } = useNavigationContext();
     const today = new Date().toLocaleDateString('en-CA');
 
@@ -105,7 +105,7 @@ export default function LogForm({ apps, namespaces }: ILogFromProps) {
                     <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
                     <MultiSelect
                         label='Apps'
-                        items={apps}
+                        items={appNames}
                         selectedItems={selectedApps}
                         onSelection={setSelectedApps}
                     />

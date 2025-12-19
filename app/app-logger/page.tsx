@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 import Pagination from "@/features/app-logger/components/Pagination";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
 import LogForm from "@/features/app-logger/components/LogForm";
-import { getApps, getErrorCounts, getLogs } from "@/features/app-logger/actions";
+import { getAppNames, getErrorCounts, getLogs } from "@/features/app-logger/actions";
 import { NavigationProvider } from "@/features/app-logger/components/NavigationContext";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
@@ -19,7 +19,7 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
         redirect(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&orderDescending=true`);
     }
 
-    const apps: string[] = await getApps();
+    const appNames: string[] = await getAppNames();
     const errorCounts = await getErrorCounts();
     const logResponse: IPagedList<ILog> = await getLogs(params);
     const namespaces = [...new Set(logResponse.items.map(l => l.sourceContext).filter(sc => sc !== null))];
@@ -30,14 +30,14 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
                 <div className="row-span-2 flex flex-col items-center">
                     <div className="mt-2 bg-white dark:bg-gray-800 w-75 h-full rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
                         <LogForm 
-                            apps={apps} 
+                            appNames={appNames} 
                             namespaces={namespaces} />
                     </div>
                 </div>
 
                 <div>
                     <ErrorPanel
-                        apps={apps}
+                        appNames={appNames}
                         errorCounts={errorCounts}
                     />
                 </div>

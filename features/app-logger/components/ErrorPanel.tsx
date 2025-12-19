@@ -2,11 +2,11 @@
 
 import { useNavigationContext } from "./NavigationContext";
 
-export function ErrorPanel({ errorCounts, apps }: { errorCounts: { app: string; count: number }[], apps: string[] }) {
+export function ErrorPanel({ errorCounts, appNames }: { errorCounts: { app: string; count: number }[], appNames: string[] }) {
     const { navigate } = useNavigationContext();
 
     const countedApps = errorCounts.map(e => e.app);
-    const zeroCountApps = apps.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
+    const zeroCountApps = appNames.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
     const displayCounts = [...errorCounts, ...zeroCountApps];
 
     function showAppErrors(appName: string) {
