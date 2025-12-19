@@ -37,19 +37,40 @@ body {
 
 /* Custom scrollbar for log tables */
 .scroll-bar::-webkit-scrollbar {
-    width: 7px;
-    height: 5px;
+    width: 4px;
+    height: 4px;
 }
 
 .scroll-bar::-webkit-scrollbar-track {
-    background: lightgrey;
-    border-radius: 5px;
-    margin-top: 0px;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: 9999px;
+    margin-top: 0;
 }
 
 .scroll-bar::-webkit-scrollbar-thumb {
-    background: #0c2340;
-    border-radius: 5px;
+    background: rgba(32, 41, 52, 0.42);
+    border-radius: 9999px;
+    border: 1px solid rgba(32, 41, 52, 0.25);
+    transition: background 150ms ease, border-color 150ms ease;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb:hover {
+    background: rgba(32, 41, 52, 0.52);
+    border-color: rgba(32, 41, 52, 0.32);
+}
+
+.dark .scroll-bar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.dark .scroll-bar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.26);
+    border-color: rgba(255, 255, 255, 0.14);
+}
+
+.dark .scroll-bar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.34);
+    border-color: rgba(255, 255, 255, 0.18);
 }
 
 @keyframes shimmer {
