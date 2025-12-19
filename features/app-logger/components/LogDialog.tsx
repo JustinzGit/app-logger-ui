@@ -56,6 +56,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
         <div
             tabIndex={0}
             onClick={onClose}
+            ref={(el) => el?.focus()}
             onKeyDown={handleKeyDown}
             className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
 
