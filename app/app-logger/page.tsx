@@ -2,7 +2,6 @@ import { SearchParams } from "next/dist/server/request/search-params";
 import { IPagedList } from "@/features/shared/types";
 import LogTable from "@/features/app-logger/components/LogTable";
 import { ILog } from "@/features/app-logger/types";
-import { redirect } from "next/navigation";
 import Pagination from "@/features/app-logger/components/Pagination";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
 import LogForm from "@/features/app-logger/components/LogForm";
@@ -11,14 +10,6 @@ import { NavigationProvider } from "@/features/app-logger/components/NavigationC
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
-
-    if (Object.keys(params).length === 0) {
-        const today = new Date();
-        const day = today.getDate().toString();
-        const date = today.toLocaleDateString("en-CA");
-        redirect(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&orderDescending=true`);
-    }
-
     const appNames: string[] = await getAppNames();
     const errorCounts = await getErrorCounts();
     const logResponse: IPagedList<ILog> = await getLogs(params);
