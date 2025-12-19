@@ -101,7 +101,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                                         {item.label}
                                     </span>
                                     <span
-                                        className="text-sm font-medium truncate"
+                                        className={`text-sm font-medium ${item.label === 'Source Context' ? 'whitespace-pre-wrap break-all leading-snug text-center' : 'truncate'} text-gray-100`}
                                         title={item.title ?? item.value}>
                                         {item.value}
                                     </span>
