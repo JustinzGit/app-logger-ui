@@ -87,23 +87,26 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                 {/* Content */}
                 <div className="flex-1 overflow-y-auto p-6">
                     <div className="space-y-4">
-                        <div className="grid grid-cols-4 gap-4 text-center">
-                            <div>
-                                <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Source Context</label>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white break-all">{currentLog.sourceContext || 'N/A'}</p>
-                            </div>
-                            <div>
-                                <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Date Time</label>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{formatLogTime(currentLog.logTime)}</p>
-                            </div>
-                            <div>
-                                <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Server</label>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{currentLog.server}</p>
-                            </div>
-                            <div>
-                                <label className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase">Account</label>
-                                <p className="mt-1 text-sm text-gray-900 dark:text-white">{currentLog.account || 'N/A'}</p>
-                            </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            {[
+                                { label: 'Source Context', value: currentLog.sourceContext || 'N/A', title: currentLog.sourceContext || 'N/A' },
+                                { label: 'Date Time', value: formatLogTime(currentLog.logTime) },
+                                { label: 'Server', value: currentLog.server, title: currentLog.server },
+                                { label: 'Account', value: currentLog.account || 'N/A', title: currentLog.account || 'N/A' },
+                            ].map((item) => (
+                                <div
+                                    key={item.label}
+                                    className="relative isolate flex flex-col items-center gap-1 rounded-lg border border-cyan-500/25 bg-slate-900 px-3 py-3 shadow-[0_8px_30px_-18px_rgba(0,0,0,0.8)] text-gray-100">
+                                    <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-cyan-200/90">
+                                        {item.label}
+                                    </span>
+                                    <span
+                                        className="text-sm font-medium truncate"
+                                        title={item.title ?? item.value}>
+                                        {item.value}
+                                    </span>
+                                </div>
+                            ))}
                         </div>
 
                         <div className="mt-10">
@@ -124,7 +127,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                                                 className="cursor-pointer text-xs px-2 py-1 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 absolute top-2 right-2">
                                                 COPY
                                             </button>
-                                            <pre className="text-sm text-baylor-blue-100 dark:text-white whitespace-pre-wrap wrap-break-word font-mono bg-[#202124] dark:bg-gray-900 p-3 pr-12 rounded border border-gray-200 dark:border-gray-700 overflow-x-auto">
+                                            <pre className="text-sm text-cyan-200/90 dark:text-white whitespace-pre-wrap wrap-break-word font-mono bg-[#202124] dark:bg-gray-900 p-3 pr-12 rounded border border-gray-200 dark:border-gray-700 overflow-x-auto">
                                                 {formattedMessage}
                                             </pre>
                                         </div>
