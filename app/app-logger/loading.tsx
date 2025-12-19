@@ -2,7 +2,7 @@
 import Image from "next/image";
 
 export default function Loading() {
-    
+
     const logLines = [
         "[INFO] Application started successfully",
         "[DEBUG] Loading configuration files",
@@ -88,6 +88,9 @@ export default function Loading() {
                     className="relative z-10"
                 />
                 <div className="w-[350px] h-[350px] border-5 pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-baylor-blue-300 border-t-transparent animate-spin z-20" />
+                <div className="absolute -bottom-20 px-4 py-2 text-center text-xs font-mono tracking-[0.35em] uppercase text-baylor-gray-100/90 bg-white/5 border border-baylor-blue-200/30 rounded-full shadow-[0_0_25px_rgba(56,130,246,0.25)] backdrop-blur">
+                    App Logger
+                </div>
             </div>
         </div>
     )
