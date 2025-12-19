@@ -77,7 +77,7 @@ export default function LogForm({ appNames, namespaces }: ILogFromProps) {
     }
 
     return (
-        <div className="relative">
+        <div className="relative h-full flex flex-col">
             <div className="bg-linear-to-br from-baylor-blue-400 to-baylor-blue-300 p-4 flex justify-center items-center">
                 <div className="bg-slate-50 dark:bg-gray-900 rounded-xl p-4 shadow-lg border border-gray-200 dark:border-gray-700 relative overflow-hidden">
                     <div onClick={onLogoClick} className="cursor-pointer relative grid place-items-center">
@@ -96,7 +96,7 @@ export default function LogForm({ appNames, namespaces }: ILogFromProps) {
                 </div>
             </div>
 
-            <div className="p-4 flex justify-center items-center">
+            <div className="p-4 flex justify-center flex-1 overflow-y-auto">
                 <form onSubmit={handleSubmit} className="w-full">
                     <div className="mb-4 flex justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
                         <span className="uppercase tracking-wide">APP LOGGER</span>
@@ -214,6 +214,12 @@ export default function LogForm({ appNames, namespaces }: ILogFromProps) {
                         </button>
                     </div>
                 </form>
+            </div>
+
+            <div className="p-3 text-center border-t border-gray-200 dark:border-gray-700">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
+                    Made with ❤️ from Justin Branch
+                </p>
             </div>
         </div>
     )
