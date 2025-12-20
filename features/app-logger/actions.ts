@@ -18,6 +18,6 @@ export async function getErrorCounts(): Promise<{ app: string, count: number }[]
 
 export async function getAppNames(): Promise<string[]> {
     const response = await fetch(`http://localhost:5086/api/logging/app-names`, { cache: 'no-store' });
-    if (!response.ok) throw new Error("Failed to fetch apps");
+    if (!response.ok) throw new Error("Failed to fetch app names");
     return response.json();
 }
