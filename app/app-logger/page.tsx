@@ -13,7 +13,6 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
     const appNames: string[] = await getAppNames();
     const errorCounts = await getErrorCounts();
     const logResponse: IPagedList<ILog> = await getLogs(params);
-    const namespaces = [...new Set(logResponse.items.map(l => l.sourceContext).filter(sc => sc !== null))];
 
     return (
         <NavigationProvider>
@@ -21,7 +20,7 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
                 <div className="row-span-2 flex flex-col items-center">
                     <LogSidebar
                         appNames={appNames}
-                        namespaces={namespaces} />
+                        logResponse={logResponse} />
                 </div>
 
                 <div>

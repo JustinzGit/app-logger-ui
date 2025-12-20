@@ -1,13 +1,16 @@
+import { IPagedList } from "@/features/shared/types";
 import LogForm from "./LogForm";
 import LogSidebarFooter from "./LogSidebarFooter";
 import LogSidebarHeader from "./LogSidebarHeader";
+import { ILog } from "../../types";
 
 interface ILogSidebarProps {
     appNames: string[];
-    namespaces: string[];
+    logResponse: IPagedList<ILog>;
 }
 
-export default function LogSidebar({ appNames, namespaces }: ILogSidebarProps) {
+export default function LogSidebar({ appNames, logResponse }: ILogSidebarProps) {
+    const namespaces = [...new Set(logResponse.items.map(l => l.sourceContext).filter(sc => sc !== null))];
     return (
         <div className="mt-2 bg-white dark:bg-gray-800 w-75 h-full rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
             <div className="relative h-full flex flex-col">
