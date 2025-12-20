@@ -10,8 +10,8 @@ import LogSidebar from "@/features/app-logger/components/Sidebar/LogSidebar";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
-    const appNames: string[] = await getAppNames();
     const errorCounts = await getErrorCounts();
+    const appNames: string[] = await getAppNames();
     const logResponse: IPagedList<ILog> = await getLogs(params);
 
     return (
