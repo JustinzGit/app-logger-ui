@@ -4,6 +4,7 @@ export function ErrorPanel({ errorCounts, appNames }: { errorCounts: { app: stri
     const countedApps = errorCounts.map(e => e.app);
     const zeroCountApps = appNames.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
     const displayCounts = [...errorCounts, ...zeroCountApps];
+    
     const today = new Date();
     const day = today.getDate().toString();
     const date = today.toLocaleDateString("en-CA");
