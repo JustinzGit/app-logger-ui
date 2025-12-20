@@ -6,7 +6,7 @@ import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useSearchParams } from "next/navigation";
 import { ChangeEvent } from "react";
-import { useNavigationContext } from "./NavigationContext";
+import { useNavigationContext } from "../NavigationContext";
 
 export default function Pagination({ pagedList }: { pagedList: IPagedList<any> }) {
     const { navigate } = useNavigationContext();

@@ -1,12 +1,11 @@
 import { SearchParams } from "next/dist/server/request/search-params";
 import { IPagedList } from "@/features/shared/types";
-import LogTable from "@/features/app-logger/components/LogTable";
 import { ILog } from "@/features/app-logger/types";
-import Pagination from "@/features/app-logger/components/Pagination";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
 import { getAppNames, getErrorCounts, getLogs } from "@/features/app-logger/actions";
 import { NavigationProvider } from "@/features/app-logger/components/NavigationContext";
 import LogSidebar from "@/features/app-logger/components/Sidebar/LogSidebar";
+import { LogTableSection } from "@/features/app-logger/components/Table/LogTableSection";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
@@ -31,18 +30,9 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
                 </div>
 
                 <div className="col-start-2 row-start-2 min-h-0">
-                    <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-                        <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
-                            <LogTable
-                                logResponse={logResponse}
-                            />
-                        </div>
-                        <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                            <Pagination
-                                pagedList={logResponse}
-                            />
-                        </div>
-                    </div>
+                    <LogTableSection
+                        logResponse={logResponse}
+                    />
                 </div>
             </div>
         </NavigationProvider>
