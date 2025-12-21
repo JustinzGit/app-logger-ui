@@ -9,11 +9,9 @@ export function middleware(request: NextRequest) {
         const date = today.toLocaleDateString("en-CA");
 
         const url = request.nextUrl.clone();
-        url.searchParams.set('pageNumber', '1');
-        url.searchParams.set('pageSize', '100');
-        url.searchParams.set('logDay', day);
         url.searchParams.set('startDateTime', date);
-        url.searchParams.set('orderDescending', 'true');
+        url.searchParams.set('logDay', day);
+        url.searchParams.set('limit', '100');
 
         return NextResponse.redirect(url);
     }
