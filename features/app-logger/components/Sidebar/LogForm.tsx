@@ -20,8 +20,8 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
     const [limit, setLimit] = useState('100');
     const [endDate, setEndDate] = useState('');
     const [endTime, setEndTime] = useState('');
-    const [startDate, setStartDate] = useState('');
-    const [startTime, setStartTime] = useState('');
+    const [startDate, setStartDate] = useState(today);
+    const [startTime, setStartTime] = useState('00:00');
     const [selectedApps, setSelectedApps] = useState<string[]>([]);
     const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
     const [selectedNamespaces, setSelectedNamespaces] = useState<string[]>([]);
@@ -39,8 +39,8 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
         setEndDate('');
         setEndTime('');
         setLimit('100');
-        setStartDate('');
-        setStartTime('');
+        setStartDate(today);
+        setStartTime('00:00');
         setSelectedApps([]);
         setSelectedLevels([]);
         setSelectedNamespaces([]);
