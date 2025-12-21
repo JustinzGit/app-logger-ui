@@ -13,7 +13,7 @@ export function ErrorPanel({ errorCounts, appNames }: { errorCounts: { app: stri
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        navigate(`/app-logger?pageNumber=1&pageSize=100&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
+        navigate(`/app-logger?limit=${100}&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
     }
 
     return (

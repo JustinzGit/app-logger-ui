@@ -1,17 +1,17 @@
 import { SearchParams } from "next/dist/server/request/search-params";
-import { IPagedList } from "@/features/shared/types";
-import { ILog } from "@/features/app-logger/types";
+import { ILogResponse } from "@/features/app-logger/types";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
 import { getAppNames, getErrorCounts, getLogs } from "@/features/app-logger/actions";
 import { NavigationProvider } from "@/features/app-logger/components/NavigationContext";
 import LogSidebar from "@/features/app-logger/components/Sidebar/LogSidebar";
-import { LogTableSection } from "@/features/app-logger/components/Table/LogTableSection";
+import { Logging } from "@/features/app-logger/components/Table/Logging";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
+
     const params = await searchParams;
     const errorCounts = await getErrorCounts();
     const appNames: string[] = await getAppNames();
-    const logResponse: IPagedList<ILog> = await getLogs(params);
+    const logResponse: ILogResponse = await getLogs(params);
 
     return (
         <NavigationProvider>
@@ -30,7 +30,7 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
                 </div>
 
                 <div className="col-start-2 row-start-2 min-h-0">
-                    <LogTableSection
+                    <Logging
                         logResponse={logResponse}
                     />
                 </div>

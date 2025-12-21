@@ -1,3 +1,5 @@
+export type LogLevel = "Debug" | "Information" | "Warning" | "Error";
+
 export interface ILog {
     id: number;
     logTime: string;
@@ -11,4 +13,9 @@ export interface ILog {
     account: string | null;
 }
 
-export type LogLevel = "Debug" | "Information" | "Warning" | "Error";
+export interface ILogResponse {
+    logs: ILog[];
+    limit: number;
+    hasMore: boolean;
+    cursorId: number | null;
+}

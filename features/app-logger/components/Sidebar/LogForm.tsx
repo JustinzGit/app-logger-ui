@@ -3,6 +3,7 @@
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigationContext } from "../NavigationContext";
+import { SingleSelect } from "@/features/shared/components/SingleSelect";
 
 interface LogFormClientProps {
     appNames: string[];
@@ -10,11 +11,13 @@ interface LogFormClientProps {
 }
 
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
+const LIMITS = ['100', '200', '500', '1000'];
 
 export default function LogFormClient({ appNames, namespaces }: LogFormClientProps) {
     const { isPending, navigate } = useNavigationContext();
     const today = new Date().toLocaleDateString('en-CA');
 
+    const [limit, setLimit] = useState('100');
     const [endDate, setEndDate] = useState('');
     const [endTime, setEndTime] = useState('');
     const [startDate, setStartDate] = useState('');
@@ -35,6 +38,7 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
     function handleReset() {
         setEndDate('');
         setEndTime('');
+        setLimit('100');
         setStartDate('');
         setStartTime('');
         setSelectedApps([]);
@@ -54,7 +58,7 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
             return;
         }
 
-        const query = new URLSearchParams({ pageNumber: '1', pageSize: '100' });
+        const query = new URLSearchParams({ limit: limit });
         selectedApps.forEach(a => query.append('apps', a));
         selectedLevels.forEach(l => query.append('levels', l));
         selectedNamespaces.forEach(n => query.append('includedNamespaces', n));
@@ -72,6 +76,7 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
             </div>
 
             <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
+
             <MultiSelect
                 label='Apps'
                 items={appNames}
@@ -100,7 +105,15 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
                 onSelection={setExcludedNamespaces}
             />
 
+            <SingleSelect 
+                label='Limit'
+                items={LIMITS}
+                selection={limit}
+                onSelection={setLimit}
+            />
+
             <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+
                 <div className="relative">
                     <label htmlFor="startDate" className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition peer-focus:text-baylor-blue-100 dark:text-gray-400">
                         Start Date

@@ -1,12 +1,11 @@
 'use client'
 
-import { IPagedList } from "@/features/shared/types";
 import { ILog, LogLevel } from "../../types";
 import { formatLogTime, levelConfig } from "../../utils";
 import { useState } from "react";
 import LogDialog from "../LogDialog";
 
-export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog> }) {
+export default function LogTable({ logs }: { logs: ILog[] }) {
     const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
 
     const baseHeader = "h-10 bg-baylor-blue-400 sticky top-0 z-10 text-center text-[13px] text-white";
@@ -26,7 +25,7 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
                 </thead>
 
                 <tbody className="divide-y divide-gray-200 dark:divide-white/10">
-                    {logResponse.items.map((log, index) => (
+                    {logs.map((log, index) => (
                         <tr
                             key={log.id}
                             onClick={() => setSelectedLogIndex(index)}
@@ -47,7 +46,7 @@ export default function LogTable({ logResponse }: { logResponse: IPagedList<ILog
             </table>
 
             <LogDialog
-                logs={logResponse.items}
+                logs={logs}
                 selectedIndex={selectedLogIndex}
                 onNavigate={setSelectedLogIndex}
                 onClose={() => setSelectedLogIndex(null)}

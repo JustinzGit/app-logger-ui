@@ -1,9 +1,8 @@
 import { SearchParams } from "next/dist/server/request/search-params";
-import { IPagedList } from "@/features/shared/types"
-import { ILog } from "@/features/app-logger/types";
+import { ILog, ILogResponse } from "@/features/app-logger/types";
 import { toQueryString } from "../shared/utils";
 
-export async function getLogs(params: SearchParams): Promise<IPagedList<ILog>> {
+export async function getLogs(params: SearchParams): Promise<ILogResponse> {
     const queryString = toQueryString(params);
     const response = await fetch(`http://localhost:5086/api/logging/logs?${queryString}`, { cache: 'no-store' });
     if (!response.ok) throw new Error("Failed to fetch logs");
