@@ -57,7 +57,7 @@ export default function LogTable({ logs }: { logs: ILog[] }) {
                             key={log.id}
                             onClick={() => setSelectedLogIndex(index)}
                             ref={rowElement => { if (rowElement) rowRefs.current.set(log.id, rowElement); }}
-                            className={`${highlightedId === log.id ? 'bg-baylor-blue-300 text-white' : ''} transition-colors duration-700 hover:bg-gray-300 hover:cursor-pointer scroll-mt-12`}>
+                            className={`${highlightedId === log.id ? 'bg-baylor-blue-300 text-white transition-colors duration-700' : ''} hover:bg-gray-300 hover:cursor-pointer scroll-mt-12`}>
 
                             <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
                             <td className={`${baseRow} text-center w-22.5`}>
