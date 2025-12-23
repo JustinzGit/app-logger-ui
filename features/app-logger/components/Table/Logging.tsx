@@ -10,6 +10,7 @@ import LogTableFooter from "./LogTableFooter";
 export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const searchParams = useSearchParams();
 
+    const [isFetching, setIsFetching] = useState(false);
     const [logs, setLogs] = useState<ILog[]>(logResponse.logs);
     const [hasMore, setHasMore] = useState<boolean>(logResponse.hasMore);
     const [cursorId, setCursorId] = useState<number | null>(logResponse.cursorId);
@@ -21,16 +22,22 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     }, [searchParams]);
 
     async function loadMoreLogs() {
-        if (!cursorId || !hasMore) return;
+        try {
+            if (!cursorId || !hasMore) return;
+    
+            setIsFetching(true);
+            const params = new URLSearchParams(searchParams);
+            params.set('cursorId', cursorId.toString());
 
-        const params = new URLSearchParams(searchParams);
-        params.set('cursorId', cursorId.toString());
+            const nextLogResponse = await getLogs(Object.fromEntries(params.entries()));
 
-        const nextLogResponse = await getLogs(Object.fromEntries(params.entries()));
-
-        setHasMore(nextLogResponse.hasMore);
-        setCursorId(nextLogResponse.cursorId);
-        setLogs(prevLogs => [...prevLogs, ...nextLogResponse.logs]);
+            setHasMore(nextLogResponse.hasMore);
+            setCursorId(nextLogResponse.cursorId);
+            setLogs(prevLogs => [...prevLogs, ...nextLogResponse.logs]);
+        }
+        finally {
+            setIsFetching(false);
+        }
     };
 
     return (
@@ -43,6 +50,7 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
             <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
                 <LogTableFooter
                     hasMoreLogs={hasMore}
+                    isFetching={isFetching}
                     totalResults={logs.length}
                     loadMoreLogs={loadMoreLogs}
                 />
