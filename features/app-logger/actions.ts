@@ -1,5 +1,5 @@
 import { SearchParams } from "next/dist/server/request/search-params";
-import { ILog, ILogResponse } from "@/features/app-logger/types";
+import { ILogResponse } from "@/features/app-logger/types";
 import { toQueryString } from "../shared/utils";
 
 export async function getLogs(params: SearchParams): Promise<ILogResponse> {
