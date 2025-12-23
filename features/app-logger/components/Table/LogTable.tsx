@@ -2,16 +2,13 @@
 
 import { ILog, LogLevel } from "../../types";
 import { formatLogTime, levelConfig } from "../../utils";
-import { useEffect, useRef, useState } from "react";
-import LogDialog from "../LogDialog";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 
-export default function LogTable({ logs }: { logs: ILog[] }) {
-    const [highlightedId, setHighlightedId] = useState<number | null>(null);
-    const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
-
+export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>> }) {
     const prevCountRef = useRef<number>(logs.length);
     const clearHighlightTimeoutRef = useRef<number | null>(null);
     const rowRefs = useRef<Map<number, HTMLTableRowElement>>(new Map());
+    const [highlightedId, setHighlightedId] = useState<number | null>(null);
 
     // When new logs are appended, scroll to the first newly added row
     useEffect(() => {
@@ -39,46 +36,37 @@ export default function LogTable({ logs }: { logs: ILog[] }) {
     const baseRow = "px-1 py-1 text-[13px] whitespace-nowrap cursor";
 
     return (
-        <>
-            <table className="min-w-full table-fixed relative">
-                <thead>
-                    <tr>
-                        <th scope="col" className={`${baseHeader} w-30 rounded-tl-md`}>App</th>
-                        <th scope="col" className={`${baseHeader} w-22.5`}>Level</th>
-                        <th scope="col" className={`${baseHeader} w-40`}>Namespace</th>
-                        <th scope="col" className={`${baseHeader} w-44`}>Date Time</th>
-                        <th scope="col" className={`${baseHeader} w-auto rounded-tr-md`}>Message</th>
+        <table className="min-w-full table-fixed relative">
+            <thead>
+                <tr>
+                    <th scope="col" className={`${baseHeader} w-30 rounded-tl-md`}>App</th>
+                    <th scope="col" className={`${baseHeader} w-22.5`}>Level</th>
+                    <th scope="col" className={`${baseHeader} w-40`}>Namespace</th>
+                    <th scope="col" className={`${baseHeader} w-44`}>Date Time</th>
+                    <th scope="col" className={`${baseHeader} w-auto rounded-tr-md`}>Message</th>
+                </tr>
+            </thead>
+
+            <tbody className="divide-y divide-gray-200 dark:divide-white/10">
+                {logs.map((log, index) => (
+                    <tr
+                        key={log.id}
+                        onClick={() => onRowClick(index)}
+                        ref={rowElement => { if (rowElement) rowRefs.current.set(log.id, rowElement); }}
+                        className={`${highlightedId === log.id ? 'bg-baylor-blue-300 text-white' : ''} hover:bg-gray-300 hover:cursor-pointer scroll-mt-12`}>
+
+                        <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
+                        <td className={`${baseRow} text-center w-22.5`}>
+                            <span className={`w-15 font-semibold inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
+                                {levelConfig[log.level as LogLevel]?.label ?? log.level}
+                            </span>
+                        </td>
+                        <td className={`${baseRow} text-center w-40`}>{log.sourceContext?.split(".").pop() ?? "N/A"}</td>
+                        <td className={`${baseRow} text-center w-44`}>{formatLogTime(log.logTime)}</td>
+                        <td className={`${baseRow} min-w-37.5 max-w-75 overflow-hidden text-ellipsis whitespace-nowrap`}>{log.message}</td>
                     </tr>
-                </thead>
-
-                <tbody className="divide-y divide-gray-200 dark:divide-white/10">
-                    {logs.map((log, index) => (
-                        <tr
-                            key={log.id}
-                            onClick={() => setSelectedLogIndex(index)}
-                            ref={rowElement => { if (rowElement) rowRefs.current.set(log.id, rowElement); }}
-                            className={`${highlightedId === log.id ? 'bg-baylor-blue-300 text-white' : ''} hover:bg-gray-300 hover:cursor-pointer scroll-mt-12`}>
-
-                            <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
-                            <td className={`${baseRow} text-center w-22.5`}>
-                                <span className={`w-15 font-semibold inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
-                                    {levelConfig[log.level as LogLevel]?.label ?? log.level}
-                                </span>
-                            </td>
-                            <td className={`${baseRow} text-center w-40`}>{log.sourceContext?.split(".").pop() ?? "N/A"}</td>
-                            <td className={`${baseRow} text-center w-44`}>{formatLogTime(log.logTime)}</td>
-                            <td className={`${baseRow} min-w-37.5 max-w-75 overflow-hidden text-ellipsis whitespace-nowrap`}>{log.message}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
-            <LogDialog
-                logs={logs}
-                selectedIndex={selectedLogIndex}
-                onNavigate={setSelectedLogIndex}
-                onClose={() => setSelectedLogIndex(null)}
-            />
-        </>
+                ))}
+            </tbody>
+        </table>
     )
 }

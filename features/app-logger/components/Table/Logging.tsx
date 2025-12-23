@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getLogs } from "../../actions";
 import LogTableFooter from "./LogTableFooter";
+import LogDialog from "../LogDialog";
 
 export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const searchParams = useSearchParams();
@@ -13,7 +14,9 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const [isFetching, setIsFetching] = useState(false);
     const [logs, setLogs] = useState<ILog[]>(logResponse.logs);
     const [hasMore, setHasMore] = useState<boolean>(logResponse.hasMore);
+    const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
     const [cursorId, setCursorId] = useState<number | null>(logResponse.cursorId);
+
 
     useEffect(() => {
         setLogs(logResponse.logs);
@@ -24,7 +27,7 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     async function loadMoreLogs() {
         try {
             if (!cursorId || !hasMore) return;
-    
+
             setIsFetching(true);
             const params = new URLSearchParams(searchParams);
             params.set('cursorId', cursorId.toString());
@@ -41,20 +44,29 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     };
 
     return (
-        <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
-            <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
-                <LogTable
-                    logs={logs}
-                />
+        <>
+            <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
+                <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
+                    <LogTable
+                        logs={logs}
+                        onRowClick={setSelectedLogIndex}
+                    />
+                </div>
+                <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+                    <LogTableFooter
+                        hasMoreLogs={hasMore}
+                        isFetching={isFetching}
+                        totalResults={logs.length}
+                        loadMoreLogs={loadMoreLogs}
+                    />
+                </div>
             </div>
-            <div className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
-                <LogTableFooter
-                    hasMoreLogs={hasMore}
-                    isFetching={isFetching}
-                    totalResults={logs.length}
-                    loadMoreLogs={loadMoreLogs}
-                />
-            </div>
-        </div>
+            <LogDialog
+                logs={logs}
+                selectedIndex={selectedLogIndex}
+                onNavigate={setSelectedLogIndex}
+                onClose={() => setSelectedLogIndex(null)}
+            />
+        </>
     )
 }
