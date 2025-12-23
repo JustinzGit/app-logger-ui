@@ -3,16 +3,19 @@
 import { ILog, LogLevel } from "../../types";
 import { formatLogTime, levelConfig } from "../../utils";
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
-export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>> }) {
+export default function LogTable({ logs, onRowClick, searchParams }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>>, searchParams: ReadonlyURLSearchParams }) {
     const prevCountRef = useRef<number>(logs.length);
+    const prevSearchParamsRef = useRef<string>(searchParams.toString());
     const clearHighlightTimeoutRef = useRef<number | null>(null);
     const rowRefs = useRef<Map<number, HTMLTableRowElement>>(new Map());
     const [highlightedId, setHighlightedId] = useState<number | null>(null);
 
     // When new logs are appended, scroll to the first newly added row
     useEffect(() => {
-        if (logs.length > prevCountRef.current) {
+        const searchParamsChanged = prevSearchParamsRef.current !== searchParams.toString();
+        if (logs.length > prevCountRef.current && !searchParamsChanged) {
             const firstNewIndex = prevCountRef.current;
             const firstNewLog = logs[firstNewIndex];
             const row = firstNewLog ? rowRefs.current.get(firstNewLog.id) : undefined;
@@ -20,9 +23,10 @@ export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClic
             if (firstNewLog) setHighlightedId(firstNewLog.id);
         }
         prevCountRef.current = logs.length;
+        prevSearchParamsRef.current = searchParams.toString();
     }, [logs]);
 
-    // Clear highlight after a short delay with a smooth fade
+    // clear highlighted row after short delay
     useEffect(() => {
         if (highlightedId === null) return;
         if (clearHighlightTimeoutRef.current) window.clearTimeout(clearHighlightTimeoutRef.current);
