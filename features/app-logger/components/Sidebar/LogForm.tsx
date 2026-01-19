@@ -9,11 +9,6 @@ import { MultiSelect } from "@/features/shared/components/MultiSelect";
 const LIMITS = ['100', '200', '500', '1000'];
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
 
-interface ILogFormProps {
-    appNames: string[];
-    namespaces: string[];
-}
-
 interface ILogFormData {
     limit: string;
     startDate: string;
@@ -26,7 +21,7 @@ interface ILogFormData {
     excludedNamespaces: string[];
 }
 
-export default function LogForm({ appNames, namespaces }: ILogFormProps) {
+export default function LogForm({ appNames, namespaces }: { appNames: string[]; namespaces: string[] }) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const today = new Date().toLocaleDateString('en-CA');
