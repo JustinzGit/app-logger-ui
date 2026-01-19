@@ -12,10 +12,8 @@ export default function LogTable({ logs, onRowClick, searchParams }: { logs: ILo
     const rowRefs = useRef<Map<number, HTMLTableRowElement>>(new Map());
     const [highlightedId, setHighlightedId] = useState<number | null>(null);
 
-    // When new logs are appended, scroll to the first newly added row
     useEffect(() => {
-        const searchParamsChanged = prevSearchParamsRef.current !== searchParams.toString();
-        if (logs.length > prevCountRef.current && !searchParamsChanged) {
+        if (logs.length > prevCountRef.current) {
             const firstNewIndex = prevCountRef.current;
             const firstNewLog = logs[firstNewIndex];
             const row = firstNewLog ? rowRefs.current.get(firstNewLog.id) : undefined;
@@ -26,7 +24,11 @@ export default function LogTable({ logs, onRowClick, searchParams }: { logs: ILo
         prevSearchParamsRef.current = searchParams.toString();
     }, [logs]);
 
-    // clear highlighted row after short delay
+    useEffect(() => {
+        const firstRow = rowRefs.current.get(1);
+        if (firstRow) firstRow.scrollIntoView({ behavior: "smooth", block: "start" })
+    }, [searchParams])
+
     useEffect(() => {
         if (highlightedId === null) return;
         if (clearHighlightTimeoutRef.current) window.clearTimeout(clearHighlightTimeoutRef.current);
