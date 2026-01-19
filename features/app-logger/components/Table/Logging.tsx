@@ -17,6 +17,8 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
     const [cursorId, setCursorId] = useState<number | null>(logResponse.cursorId);
 
+    // TODO: avoid resetting state on prop change in an effect
+    // inefficient because Logging and its children will first render with the stale value, then render again
     useEffect(() => {
         setLogs(logResponse.logs);
         setHasMore(logResponse.hasMore);
