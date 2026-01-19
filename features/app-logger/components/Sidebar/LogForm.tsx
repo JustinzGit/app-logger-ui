@@ -1,72 +1,77 @@
 "use client"
 
-import { MultiSelect } from "@/features/shared/components/MultiSelect";
 import { FormEvent, useEffect, useState } from "react";
 import { useNavigationContext } from "../NavigationContext";
+import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
+import { MultiSelect } from "@/features/shared/components/MultiSelect";
 
-interface LogFormClientProps {
+const LIMITS = ['100', '200', '500', '1000'];
+const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
+
+interface ILogFormProps {
     appNames: string[];
     namespaces: string[];
 }
 
-const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
-const LIMITS = ['100', '200', '500', '1000'];
+interface ILogFormData {
+    limit: string;
+    startDate: string;
+    startTime: string;
+    endDate: string;
+    endTime: string;
+    apps: string[];
+    levels: string[];
+    includedNamespaces: string[];
+    excludedNamespaces: string[];
+}
 
-export default function LogFormClient({ appNames, namespaces }: LogFormClientProps) {
-    const { isPending, navigate } = useNavigationContext();
+export default function LogForm({ appNames, namespaces }: ILogFormProps) {
+    const pathname = usePathname();
+    const searchParams = useSearchParams();
     const today = new Date().toLocaleDateString('en-CA');
+    const { isPending, navigate } = useNavigationContext();
 
-    const [limit, setLimit] = useState('100');
-    const [endDate, setEndDate] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [startDate, setStartDate] = useState(today);
-    const [startTime, setStartTime] = useState('00:00');
-    const [selectedApps, setSelectedApps] = useState<string[]>([]);
-    const [selectedLevels, setSelectedLevels] = useState<string[]>([]);
-    const [selectedNamespaces, setSelectedNamespaces] = useState<string[]>([]);
-    const [excludedNamespaces, setExcludedNamespaces] = useState<string[]>([]);
+    const getFormDataFromURL = (): ILogFormData => ({
+        limit: searchParams.get('limit') || '100',
+        startDate: searchParams.get('startDate') || today,
+        startTime: searchParams.get('startTime') || '00:00',
+        endDate: searchParams.get('endDate') || '',
+        endTime: searchParams.get('endTime') || '',
+        apps: searchParams.getAll('apps'),
+        levels: searchParams.getAll('levels'),
+        includedNamespaces: searchParams.getAll('includedNamespaces'),
+        excludedNamespaces: searchParams.getAll('excludedNamespaces'),
+    });
 
+    const [formData, setFormData] = useState<ILogFormData>(getFormDataFromURL());
+
+    // This ensures the form UI stays in sync with the URL if the user navigates history
     useEffect(() => {
-        if (startDate && !startTime) setStartTime('00:00');
-        if (startTime && !startDate) setStartDate(today);
+        setFormData(getFormDataFromURL());
+    }, [searchParams, today]);
 
-        if (endDate && !endTime) setEndTime('23:59');
-        if (endTime && !endDate) setEndDate(today);
-    }, [startDate, startTime, endDate, endTime, today]);
-
-    function handleReset() {
-        setEndDate('');
-        setEndTime('');
-        setLimit('100');
-        setStartDate(today);
-        setStartTime('00:00');
-        setSelectedApps([]);
-        setSelectedLevels([]);
-        setSelectedNamespaces([]);
-        setExcludedNamespaces([]);
-    }
+    const updateField = <FormField extends keyof ILogFormData>(field: FormField, value: ILogFormData[FormField]) => {
+        setFormData(prev => ({ ...prev, [field]: value }));
+    };
 
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
+        const params = new URLSearchParams();
 
-        const startDateTime = startDate && startTime ? `${startDate}T${startTime}` : '';
-        const endDateTime = endDate && endTime ? `${endDate}T${endTime}` : '';
+        const startDateTime = formData.startDate ? `${formData.startDate}T${formData.startTime || '00:00'}` : null;
+        const endDateTime = formData.endDate ? `${formData.endDate}T${formData.endTime || '23:59'}` : null;
 
-        if (startDateTime && endDateTime && endDateTime < startDateTime) {
-            // TODO: show notification
-            return;
-        }
+        if (startDateTime) params.set('startDateTime', startDateTime);
+        if (endDateTime) params.set('endDateTime', endDateTime);
 
-        const query = new URLSearchParams({ limit: limit });
-        selectedApps.forEach(a => query.append('apps', a));
-        selectedLevels.forEach(l => query.append('levels', l));
-        selectedNamespaces.forEach(n => query.append('includedNamespaces', n));
-        excludedNamespaces.forEach(n => query.append('excludedNamespaces', n));
-        if (startDateTime) query.set('startDateTime', startDateTime);
-        if (endDateTime) query.set('endDateTime', endDateTime);
+        params.set('limit', formData.limit);
+        formData.apps.forEach(a => params.append('apps', a));
+        formData.levels.forEach(l => params.append('levels', l));
+        formData.includedNamespaces.forEach(n => params.append('includedNamespaces', n));
+        formData.excludedNamespaces.forEach(n => params.append('excludedNamespaces', n));
 
-        navigate(`/app-logger?${query.toString()}`);
+        navigate(`${pathname}?${params.toString()}`);
     }
 
     return (
@@ -80,36 +85,36 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
             <MultiSelect
                 label='Apps'
                 items={appNames}
-                selectedItems={selectedApps}
-                onSelection={setSelectedApps}
+                selectedItems={formData.apps}
+                onSelection={(value) => updateField('apps', value)}
             />
 
             <MultiSelect
                 label='Levels'
                 items={LEVELS}
-                selectedItems={selectedLevels}
-                onSelection={setSelectedLevels}
+                selectedItems={formData.levels}
+                onSelection={(value) => updateField('levels', value)}
             />
 
             <MultiSelect
                 label='Included Namespaces'
                 items={namespaces}
-                selectedItems={selectedNamespaces}
-                onSelection={setSelectedNamespaces}
+                selectedItems={formData.includedNamespaces}
+                onSelection={(value) => updateField('includedNamespaces', value)}
             />
 
             <MultiSelect
                 label='Excluded Namespaces'
                 items={namespaces}
-                selectedItems={excludedNamespaces}
-                onSelection={setExcludedNamespaces}
+                selectedItems={formData.excludedNamespaces}
+                onSelection={(value) => updateField('excludedNamespaces', value)}
             />
 
-            <SingleSelect 
+            <SingleSelect
                 label='Limit'
                 items={LIMITS}
-                selection={limit}
-                onSelection={setLimit}
+                selection={formData.limit}
+                onSelection={(value) => updateField('limit', value)}
             />
 
             <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -123,8 +128,8 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
                         type="date"
                         id="startDate"
                         name="startDate"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
+                        value={formData.startDate}
+                        onChange={(event) => updateField('startDate', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                     />
@@ -139,8 +144,8 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
                         type="time"
                         id="startTime"
                         name="startTime"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
+                        value={formData.startTime}
+                        onChange={(event) => updateField('startTime', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                     />
@@ -155,8 +160,8 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
                         type="date"
                         id="endDate"
                         name="endDate"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
+                        value={formData.endDate}
+                        onChange={(event) => updateField('endDate', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                     />
@@ -171,8 +176,8 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
                         type="time"
                         id="endTime"
                         name="endTime"
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}
+                        value={formData.endTime}
+                        onChange={(event) => updateField('endTime', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                     />
@@ -190,7 +195,7 @@ export default function LogFormClient({ appNames, namespaces }: LogFormClientPro
                 <button
                     type="button"
                     disabled={isPending}
-                    onClick={handleReset}
+                    onClick={() => navigate(pathname)}
                     className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
                     Reset
                 </button>
