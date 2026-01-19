@@ -2,8 +2,10 @@
 
 import Image from "next/image";
 import { useNavigationContext } from "../NavigationContext";
+import { usePathname } from "next/navigation";
 
 export default function LogSidebarHeader() {
+    const pathname = usePathname();
     const { isPending, navigate } = useNavigationContext();
 
     function onLogoClick() {
@@ -11,7 +13,7 @@ export default function LogSidebarHeader() {
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
         const query = new URLSearchParams({ startDateTime: date, logDay: day, limit: '100' });
-        navigate(`/app-logger?${query.toString()}`);
+        navigate(`${pathname}?${query.toString()}`);
     }
 
     return (
