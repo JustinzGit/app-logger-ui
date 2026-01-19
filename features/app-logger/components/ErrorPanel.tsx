@@ -1,8 +1,10 @@
 'use client'
 
+import { usePathname } from "next/navigation";
 import { useNavigationContext } from "./NavigationContext";
 
 export function ErrorPanel({ errorCounts, appNames }: { errorCounts: { app: string; count: number }[], appNames: string[] }) {
+    const pathname = usePathname();
     const { navigate } = useNavigationContext();
 
     const countedApps = errorCounts.map(e => e.app);
@@ -13,7 +15,7 @@ export function ErrorPanel({ errorCounts, appNames }: { errorCounts: { app: stri
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        navigate(`/app-logger?limit=${100}&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
+        navigate(`${pathname}?limit=${100}&logDay=${day}&startDateTime=${date}&Apps=${appName}&Levels=Error`);
     }
 
     return (
