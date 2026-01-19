@@ -7,7 +7,6 @@ import LogSidebar from "@/features/app-logger/components/Sidebar/LogSidebar";
 import { Logging } from "@/features/app-logger/components/Table/Logging";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
-
     const params = await searchParams;
     const errorCounts = await getErrorCounts();
     const appNames: string[] = await getAppNames();
