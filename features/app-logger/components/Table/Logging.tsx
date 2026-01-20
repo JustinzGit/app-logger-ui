@@ -10,7 +10,6 @@ import { useLogPagination } from "../../hooks/useLogPagination";
 export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
     const { logs, hasMore, isFetching, loadMoreLogs } = useLogPagination(logResponse);
-
     return (
         <>
             <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
@@ -29,12 +28,14 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
                     />
                 </div>
             </div>
-            <LogDialog
-                logs={logs}
-                selectedIndex={selectedLogIndex}
-                onNavigate={setSelectedLogIndex}
-                onClose={() => setSelectedLogIndex(null)}
-            />
+            {selectedLogIndex !== null && (
+                <LogDialog
+                    logs={logs}
+                    selectedIndex={selectedLogIndex}
+                    onNavigate={setSelectedLogIndex}
+                    onClose={() => setSelectedLogIndex(null)}
+                />
+            )}
         </>
     )
 }
