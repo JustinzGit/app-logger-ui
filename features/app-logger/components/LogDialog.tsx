@@ -47,7 +47,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
                     <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
-                        {currentLog.app}
+                        {currentLog.sourceContext || 'N/A'}
                     </h2>
                     <div className="flex items-center gap-4">
                         <span className="text-sm text-gray-600 dark:text-gray-400">
@@ -69,7 +69,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                     <div className="space-y-4">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
                             {[
-                                { label: 'Source Context', value: currentLog.sourceContext || 'N/A', title: currentLog.sourceContext || 'N/A' },
+                                { label: 'Application', value: currentLog.app, title: currentLog.app },
                                 { label: 'Date Time', value: formatLogTime(currentLog.logTime) },
                                 { label: 'Server', value: currentLog.server, title: currentLog.server },
                                 { label: 'Account', value: currentLog.account || 'N/A', title: currentLog.account || 'N/A' },
