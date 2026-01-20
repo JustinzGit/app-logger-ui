@@ -44,7 +44,6 @@ export function Logging({ logResponse }: { logResponse: ILogResponse }) {
                 <div className="flex-1 min-h-0 overflow-auto overflow-x-hidden scroll-bar">
                     <LogTable
                         logs={logs}
-                        searchParams={searchParams}
                         onRowClick={setSelectedLogIndex}
                     />
                 </div>

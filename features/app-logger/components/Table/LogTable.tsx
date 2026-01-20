@@ -3,9 +3,8 @@
 import { ILog, LogLevel } from "../../types";
 import { formatLogTime, levelConfig } from "../../utils";
 import { Dispatch, SetStateAction, useLayoutEffect, useRef } from "react";
-import { ReadonlyURLSearchParams } from "next/navigation";
 
-export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>>, searchParams: ReadonlyURLSearchParams }) {
+export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>> }) {
     const prevCountRef = useRef<number>(logs.length);
 
     useLayoutEffect(() => {
