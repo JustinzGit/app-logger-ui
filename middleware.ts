@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
+    const { pathname, search } = request.nextUrl;
 
-    // Handle /app-logger route with no search params
-    if (request.nextUrl.pathname === '/app-logger' && request.nextUrl.search === '') {
+    if (pathname === '/' || (pathname === '/app-logger' && search === '')) {
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
 
         const url = request.nextUrl.clone();
+        url.pathname = '/app-logger'; 
         url.searchParams.set('startDateTime', date);
         url.searchParams.set('logDay', day);
         url.searchParams.set('limit', '100');
@@ -19,7 +20,5 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-    matcher: '/app-logger',
+    matcher: ['/', '/app-logger'],
 };
-
-//  ⚠ The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
