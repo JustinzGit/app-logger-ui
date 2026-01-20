@@ -23,7 +23,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems }: IMulti
         document.addEventListener('pointerdown', onPointerDown)
         return () => document.removeEventListener('pointerdown', onPointerDown)
     }, []);
-
+    
     function toggleItem(item: string) {
         const next = selectedItems.includes(item)
             ? selectedItems.filter(x => x !== item)
@@ -38,7 +38,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems }: IMulti
 
     return (
         <div ref={rootRef} className="mt-2 relative w-full min-w-0">
-            <div className="relative w-full min-w-0 ">
+            <div className="relative w-full min-w-0">
                 {selectedItems.length > 0 && (
                     <label className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition dark:text-gray-400 z-10">
                         {label}
@@ -54,21 +54,22 @@ export function MultiSelect({ label, items, onSelection, selectedItems }: IMulti
             </div>
 
             {selected && (
-                <div className="scroll-bar absolute left-0 right-0 z-20 mt-1 cursor-pointer rounded-md bg-gray-50 py-1.5 pr-3 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto space-y-1">
+                <div 
+                    className="scroll-bar fixed z-50 min-w-65 cursor-pointer rounded-md bg-gray-50 py-1.5 pr-3 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto space-y-1">
                     {items.map((item, i) => {
                         const checked = selectedItems.includes(item);
                         return (
                             <label
                                 key={i}
-                                className="flex items-center cursor-pointer select-none">
+                                className="flex items-center cursor-pointer select-none hover:bg-black/5 dark:hover:bg-white/5 rounded px-1 py-1">
                                 <Checkbox
                                     size="small"
                                     disableRipple
                                     checked={checked}
                                     onChange={() => toggleItem(item)}
-                                    sx={{ color: '#989898', '&.Mui-checked': { color: '#0c2340' } }}
+                                    sx={{ color: '#989898', padding: '4px', '&.Mui-checked': { color: '#0c2340' } }}
                                 />
-                                <span title={item} className="ml-1 flex-1 min-w-0 truncate [direction:rtl] text-left">{item}</span>
+                                <span title={item} className="ml-1 flex-1 whitespace-nowrap text-left">{item}</span>
                             </label>
                         )
                     })}
