@@ -6,7 +6,7 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
 
-const LIMITS = ['100', '200', '500', '1000'];
+const LIMITS = ['100', '150', '200', '250'];
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
 
 interface ILogFormData {
