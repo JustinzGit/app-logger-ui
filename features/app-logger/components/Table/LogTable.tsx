@@ -6,17 +6,26 @@ import { Dispatch, SetStateAction, useLayoutEffect, useRef } from "react";
 
 export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>> }) {
     const prevCountRef = useRef<number>(logs.length);
+    const highlightIndex = logs.length < prevCountRef.current ? 0 : prevCountRef.current;
 
     useLayoutEffect(() => {
+        // Appending logs (Standard "Load More")
         if (logs.length > prevCountRef.current && prevCountRef.current > 0) {
             const firstNewIndex = prevCountRef.current;
             const firstNewLog = logs[firstNewIndex];
 
             if (firstNewLog) {
                 const row = document.getElementById(`log-row-${firstNewLog.id}`);
-                if (row) {
-                    row.scrollIntoView({ behavior: "smooth", block: "start" });
-                }
+                row?.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+        }
+
+        // Resetting logs 
+        else if (logs.length < prevCountRef.current && logs.length > 0) {
+            const firstLog = logs[0]; 
+            if (firstLog) {
+                const row = document.getElementById(`log-row-${firstLog.id}`);
+                row?.scrollIntoView({ behavior: "smooth", block: "end" });
             }
         }
         prevCountRef.current = logs.length;
@@ -39,13 +48,13 @@ export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClic
 
             <tbody className="divide-y divide-gray-200 dark:divide-white/10">
                 {logs.map((log, index) => {
-                    const isNewestLog = index == prevCountRef.current;
+                    const shouldHighlight = index === highlightIndex;
                     return (
                         <tr
                             key={log.id}
                             id={`log-row-${log.id}`}
                             onClick={() => onRowClick(index)}
-                            className={`hover:bg-gray-300 hover:cursor-pointer scroll-mt-12 ${isNewestLog ? 'animate-flash' : ''}`}>
+                            className={`hover:bg-gray-300 hover:cursor-pointer scroll-mt-12 ${shouldHighlight ? 'animate-flash' : ''}`}>
 
                             <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
                             <td className={`${baseRow} text-center w-22.5`}>
