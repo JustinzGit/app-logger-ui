@@ -50,6 +50,20 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
+    const resetForm = () => {
+        setFormData({
+            limit: '100',
+            startDate: today,
+            startTime: '00:00',
+            endDate: '',
+            endTime: '',
+            apps: [],
+            levels: [],
+            includedNamespaces: [],
+            excludedNamespaces: [],
+        });
+    };
+
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
         const params = new URLSearchParams();
@@ -190,7 +204,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
                 <button
                     type="button"
                     disabled={isPending}
-                    onClick={() => navigate(pathname)}
+                    onClick={resetForm}
                     className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
                     Reset
                 </button>
