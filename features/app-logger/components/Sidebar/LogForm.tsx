@@ -85,7 +85,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
 
     return (
         <form onSubmit={handleSubmit} className="w-full">
-            <div className="mb-4 flex justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
+            <div className="mb-2 flex justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
                 <span className="uppercase tracking-wide">APP LOGGER</span>
             </div>
 
