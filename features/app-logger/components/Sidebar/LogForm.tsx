@@ -106,6 +106,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
             />
 
             <MultiSelect
+                searchable
                 label='Included Namespaces'
                 items={namespaces}
                 selectedItems={formData.includedNamespaces}
@@ -113,6 +114,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
             />
 
             <MultiSelect
+                searchable
                 label='Excluded Namespaces'
                 items={namespaces}
                 selectedItems={formData.excludedNamespaces}
