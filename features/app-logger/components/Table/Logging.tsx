@@ -1,42 +1,15 @@
 'use client'
 
 import LogTable from "./LogTable";
-import { ILog, ILogResponse } from "../../types";
+import { ILogResponse } from "../../types";
 import { useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { getLogs } from "../../actions";
 import LogTableFooter from "./LogTableFooter";
 import LogDialog from "../LogDialog";
+import { useLogPagination } from "../../hooks/useLogPagination";
 
 export function Logging({ logResponse }: { logResponse: ILogResponse }) {
-    const searchParams = useSearchParams();
-
-    // Because of the "Key Reset" in page.tsx, this state is guranteed to be fresh whenever the filters change.
-    const [logs, setLogs] = useState<ILog[]>(logResponse.logs);
-    const [hasMore, setHasMore] = useState<boolean>(logResponse.hasMore);
-    const [cursorId, setCursorId] = useState<number | null>(logResponse.cursorId);
-    
-    const [isFetching, setIsFetching] = useState(false);
     const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
-
-    async function loadMoreLogs() {
-        if (isFetching || !cursorId || !hasMore) return;
-
-        try {
-            setIsFetching(true);
-            
-            const params = new URLSearchParams(searchParams);
-            params.set('cursorId', cursorId.toString());
-            const nextLogResponse = await getLogs(Object.fromEntries(params.entries()));
-
-            setLogs(prevLogs => [...prevLogs, ...nextLogResponse.logs]);
-            setHasMore(nextLogResponse.hasMore);
-            setCursorId(nextLogResponse.cursorId);
-        } 
-        finally {
-            setIsFetching(false);
-        }
-    };
+    const { logs, hasMore, isFetching, loadMoreLogs } = useLogPagination(logResponse);
 
     return (
         <>
