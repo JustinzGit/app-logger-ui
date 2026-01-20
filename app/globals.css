@@ -123,3 +123,18 @@ body {
         opacity: 0;
     }
 }
+
+@keyframes flash-blue {
+    0% { 
+        background-color: var(--color-baylor-blue-300); 
+        color: white; 
+    }
+    100% { 
+        background-color: white; 
+        color: black; 
+    }
+}
+
+.animate-flash {
+    animation: flash-blue 2s ease-in forwards;
+}

@@ -2,41 +2,26 @@
 
 import { ILog, LogLevel } from "../../types";
 import { formatLogTime, levelConfig } from "../../utils";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useLayoutEffect, useRef } from "react";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
-export default function LogTable({ logs, onRowClick, searchParams }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>>, searchParams: ReadonlyURLSearchParams }) {
+export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClick: Dispatch<SetStateAction<number | null>>, searchParams: ReadonlyURLSearchParams }) {
     const prevCountRef = useRef<number>(logs.length);
-    const prevSearchParamsRef = useRef<string>(searchParams.toString());
-    const clearHighlightTimeoutRef = useRef<number | null>(null);
-    const rowRefs = useRef<Map<number, HTMLTableRowElement>>(new Map());
-    const [highlightedId, setHighlightedId] = useState<number | null>(null);
 
-    useEffect(() => {
-        if (logs.length > prevCountRef.current) {
+    useLayoutEffect(() => {
+        if (logs.length > prevCountRef.current && prevCountRef.current > 0) {
             const firstNewIndex = prevCountRef.current;
             const firstNewLog = logs[firstNewIndex];
-            const row = firstNewLog ? rowRefs.current.get(firstNewLog.id) : undefined;
-            if (row) row.scrollIntoView({ behavior: "smooth", block: "start" });
-            if (firstNewLog) setHighlightedId(firstNewLog.id);
+
+            if (firstNewLog) {
+                const row = document.getElementById(`log-row-${firstNewLog.id}`);
+                if (row) {
+                    row.scrollIntoView({ behavior: "smooth", block: "start" });
+                }
+            }
         }
         prevCountRef.current = logs.length;
-        prevSearchParamsRef.current = searchParams.toString();
     }, [logs]);
-
-    useEffect(() => {
-        const firstRow = rowRefs.current.get(1);
-        if (firstRow) firstRow.scrollIntoView({ behavior: "smooth", block: "start" })
-    }, [searchParams])
-
-    useEffect(() => {
-        if (highlightedId === null) return;
-        if (clearHighlightTimeoutRef.current) window.clearTimeout(clearHighlightTimeoutRef.current);
-        clearHighlightTimeoutRef.current = window.setTimeout(() => setHighlightedId(null), 1500);
-        return () => {
-            if (clearHighlightTimeoutRef.current) window.clearTimeout(clearHighlightTimeoutRef.current);
-        };
-    }, [highlightedId]);
 
     const baseHeader = "h-10 bg-baylor-blue-400 sticky top-0 z-10 text-center text-[13px] text-white";
     const baseRow = "px-1 py-1 text-[13px] whitespace-nowrap cursor";
@@ -54,24 +39,27 @@ export default function LogTable({ logs, onRowClick, searchParams }: { logs: ILo
             </thead>
 
             <tbody className="divide-y divide-gray-200 dark:divide-white/10">
-                {logs.map((log, index) => (
-                    <tr
-                        key={log.id}
-                        onClick={() => onRowClick(index)}
-                        ref={rowElement => { if (rowElement) rowRefs.current.set(log.id, rowElement); }}
-                        className={`${highlightedId === log.id ? 'bg-baylor-blue-300 text-white' : ''} hover:bg-gray-300 hover:cursor-pointer scroll-mt-12`}>
+                {logs.map((log, index) => {
+                    const isNewestLog = index == prevCountRef.current;
+                    return (
+                        <tr
+                            key={log.id}
+                            id={`log-row-${log.id}`}
+                            onClick={() => onRowClick(index)}
+                            className={`hover:bg-gray-300 hover:cursor-pointer scroll-mt-12 ${isNewestLog ? 'animate-flash' : ''}`}>
 
-                        <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
-                        <td className={`${baseRow} text-center w-22.5`}>
-                            <span className={`w-15 font-semibold inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
-                                {levelConfig[log.level as LogLevel]?.label ?? log.level}
-                            </span>
-                        </td>
-                        <td className={`${baseRow} text-center w-40`}>{log.sourceContext?.split(".").pop() ?? "N/A"}</td>
-                        <td className={`${baseRow} text-center w-44`}>{formatLogTime(log.logTime)}</td>
-                        <td className={`${baseRow} min-w-37.5 max-w-75 overflow-hidden text-ellipsis whitespace-nowrap`}>{log.message}</td>
-                    </tr>
-                ))}
+                            <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
+                            <td className={`${baseRow} text-center w-22.5`}>
+                                <span className={`w-15 font-semibold inline-flex items-center justify-center rounded-md px-1.5 py-0.5 text-xs ${levelConfig[log.level as LogLevel]?.badgeColor}`}>
+                                    {levelConfig[log.level as LogLevel]?.label ?? log.level}
+                                </span>
+                            </td>
+                            <td className={`${baseRow} text-center w-40`}>{log.sourceContext?.split(".").pop() ?? "N/A"}</td>
+                            <td className={`${baseRow} text-center w-44`}>{formatLogTime(log.logTime)}</td>
+                            <td className={`${baseRow} min-w-37.5 max-w-75 overflow-hidden text-ellipsis whitespace-nowrap`}>{log.message}</td>
+                        </tr>
+                    )
+                })}
             </tbody>
         </table>
     )
