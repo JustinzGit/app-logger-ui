@@ -6,6 +6,22 @@ export function formatLogTime(logTime: string) {
     return formatted;
 }
 
+export function parseJsonMessage(value: string): { isJson: boolean; formatted: string } {
+    const trimmed = value.trim();
+
+    if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
+        return { isJson: false, formatted: value };
+    }
+
+    try {
+        const parsed = JSON.parse(trimmed);
+        return { isJson: true, formatted: JSON.stringify(parsed, null, 2) };
+    } 
+    catch {
+        return { isJson: false, formatted: value };
+    }
+};
+
 export const levelConfig: Record<LogLevel, { label: string; badgeColor: string }> = {
     Debug: {
         label: "DEBUG",

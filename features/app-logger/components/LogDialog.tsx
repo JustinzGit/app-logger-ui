@@ -1,53 +1,33 @@
 'use client'
 
 import { ILog, LogLevel } from "@/features/app-logger/types";
-import { formatLogTime, levelConfig } from "@/features/app-logger/utils";
+import { formatLogTime, levelConfig, parseJsonMessage } from "@/features/app-logger/utils";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 
 interface LogDialogProps {
     logs: ILog[];
-    selectedIndex: number | null;
+    selectedIndex: number;
     onClose: () => void;
     onNavigate: (index: number) => void;
 }
 
 export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: LogDialogProps) {
-    if (selectedIndex === null) return null;
-
     const currentLog = logs[selectedIndex];
     const totalLogs = logs.length;
 
     const handlePrevious = () => {
-        if (selectedIndex > 0) {
-            onNavigate(selectedIndex - 1);
-        }
+        if (selectedIndex > 0) onNavigate(selectedIndex - 1);
     };
 
     const handleNext = () => {
-        if (selectedIndex < totalLogs - 1) {
-            onNavigate(selectedIndex + 1);
-        }
+        if (selectedIndex < totalLogs - 1) onNavigate(selectedIndex + 1);
     };
 
     const handleKeyDown = (e: React.KeyboardEvent) => {
         if (e.key === 'Escape') onClose();
         if (e.key === 'ArrowLeft') handlePrevious();
         if (e.key === 'ArrowRight') handleNext();
-    };
-
-    const parseJsonMessage = (value: string) => {
-        const trimmed = value.trim();
-        if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
-            return { isJson: false, formatted: value };
-        }
-
-        try {
-            const parsed = JSON.parse(trimmed);
-            return { isJson: true, formatted: JSON.stringify(parsed, null, 2) };
-        } catch {
-            return { isJson: false, formatted: value };
-        }
     };
 
     const { isJson: isJsonMessage, formatted: formattedMessage } = parseJsonMessage(currentLog.message);
