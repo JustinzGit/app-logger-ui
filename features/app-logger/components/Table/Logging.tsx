@@ -2,7 +2,7 @@
 
 import LogTable from "./LogTable";
 import { ILog, ILogResponse } from "../../types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { getLogs } from "../../actions";
 import LogTableFooter from "./LogTableFooter";
@@ -11,34 +11,28 @@ import LogDialog from "../LogDialog";
 export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const searchParams = useSearchParams();
 
-    const [isFetching, setIsFetching] = useState(false);
+    // Because of the "Key Reset" in page.tsx, this state is guranteed to be fresh whenever the filters change.
     const [logs, setLogs] = useState<ILog[]>(logResponse.logs);
     const [hasMore, setHasMore] = useState<boolean>(logResponse.hasMore);
-    const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
     const [cursorId, setCursorId] = useState<number | null>(logResponse.cursorId);
-
-    // TODO: avoid resetting state on prop change in an effect
-    // inefficient because Logging and its children will first render with the stale value, then render again
-    useEffect(() => {
-        setLogs(logResponse.logs);
-        setHasMore(logResponse.hasMore);
-        setCursorId(logResponse.cursorId);
-    }, [searchParams]);
+    
+    const [isFetching, setIsFetching] = useState(false);
+    const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);
 
     async function loadMoreLogs() {
-        try {
-            if (!cursorId || !hasMore) return;
+        if (isFetching || !cursorId || !hasMore) return;
 
+        try {
             setIsFetching(true);
+            
             const params = new URLSearchParams(searchParams);
             params.set('cursorId', cursorId.toString());
-
             const nextLogResponse = await getLogs(Object.fromEntries(params.entries()));
 
+            setLogs(prevLogs => [...prevLogs, ...nextLogResponse.logs]);
             setHasMore(nextLogResponse.hasMore);
             setCursorId(nextLogResponse.cursorId);
-            setLogs(prevLogs => [...prevLogs, ...nextLogResponse.logs]);
-        }
+        } 
         finally {
             setIsFetching(false);
         }
