@@ -64,7 +64,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
                 <div
                     className="-translate-x-0.5 mt-2 scroll-bar fixed z-50 min-w-67 cursor-pointer rounded-md bg-gray-50 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto">
                     {searchable && (
-                        <div className="sticky top-0 z-10 dark:bg-gray-900 px-3 pt-1.5 pb-2">
+                        <div className="sticky top-0 z-10 dark:bg-gray-900 px-2 pt-1.5 pb-2">
                             <input
                                 type="text"
                                 value={searchQuery}
@@ -75,7 +75,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
                             />
                         </div>
                     )}
-                    <div className="px-3 pb-1.5 space-y-1">
+                    <div className="px-1 py-1 pb-1.5 space-y-1">
                         {filteredItems.map((item, i) => {
                             const checked = selectedItems.includes(item);
                             return (
