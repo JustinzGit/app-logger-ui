@@ -39,10 +39,15 @@ export function MultiSelect({ label, items, onSelection, selectedItems }: IMulti
     return (
         <div ref={rootRef} className="mt-2 relative w-full min-w-0">
             <div className="relative w-full min-w-0 ">
+                {selectedItems.length > 0 && (
+                    <label className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition dark:text-gray-400 z-10">
+                        {label}
+                    </label>
+                )}
                 <div
                     title={selectedItems.join(', ')}
                     onClick={() => isSelected(!selected)}
-                    className={`${selected ? 'outline-2 outline-baylor-blue-100' : 'outline-1 outline-gray-300'} h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 py-1.5 pr-10 pl-3 text-base text-gray-900 -outline-offset-1 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100"`}>
+                    className={`${selected ? 'outline-2 outline-baylor-blue-100' : 'outline-1 outline-gray-300'} ${selectedItems.length > 0 ? 'pt-7 pb-1.5' : 'py-1.5'} h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 pr-10 pl-3 text-base text-gray-900 -outline-offset-1 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100"`}>
                     <span className="truncate whitespace-nowrap">{displayLabel}</span>
                 </div>
                 <ExpandMoreIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4 dark:text-gray-400" />
