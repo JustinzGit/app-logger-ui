@@ -233,7 +233,7 @@ export default function LogForm({ appNamePromise, namespacePromise }: ILogFormPr
                 </div>
             </div>
 
-            <div className="mt-6 pt-4 flex gap-2 border-t border-gray-200 dark:border-white/10">
+            <div className="mt-3 pt-4 flex gap-2 border-t border-gray-200 dark:border-white/10">
                 <button
                     type="submit"
                     disabled={isPending}
