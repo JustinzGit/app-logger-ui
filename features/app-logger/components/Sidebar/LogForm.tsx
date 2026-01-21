@@ -11,6 +11,7 @@ const LIMITS = ['100', '150', '200', '250'];
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
 
 interface ILogFormData {
+    sort: 'Descending' | 'Ascending';
     limit: string;
     startDate: string;
     startTime: string;
@@ -29,21 +30,23 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
     const { isPending, navigate, refresh } = useNavigationContext();
 
 
-const getFormDataFromURL = (): ILogFormData => {
-    const startDateTime = parseDateTime(searchParams.get('startDateTime'));
-    const endDateTime = parseDateTime(searchParams.get('endDateTime'));
-    return {
-        limit: searchParams.get('limit') || '100',
-        startDate: startDateTime?.date || today,
-        startTime: startDateTime?.time || '00:00',
-        endDate: endDateTime?.date || '',
-        endTime: endDateTime?.time || '',
-        apps: searchParams.getAll('apps'),
-        levels: searchParams.getAll('levels'),
-        includedNamespaces: searchParams.getAll('includedNamespaces'),
-        excludedNamespaces: searchParams.getAll('excludedNamespaces'),
+    const getFormDataFromURL = (): ILogFormData => {
+        const startDateTime = parseDateTime(searchParams.get('startDateTime'));
+        const endDateTime = parseDateTime(searchParams.get('endDateTime'));
+        const sort = searchParams.get('sortDescendingending') === 'false' ? 'Ascending' : 'Descending'; 
+        return {
+            sort,
+            limit: searchParams.get('limit') || '100',
+            startDate: startDateTime?.date || today,
+            startTime: startDateTime?.time || '00:00',
+            endDate: endDateTime?.date || '',
+            endTime: endDateTime?.time || '',
+            apps: searchParams.getAll('apps'),
+            levels: searchParams.getAll('levels'),
+            includedNamespaces: searchParams.getAll('includedNamespaces'),
+            excludedNamespaces: searchParams.getAll('excludedNamespaces'),
+        };
     };
-};
 
     const [formData, setFormData] = useState<ILogFormData>(getFormDataFromURL());
 
@@ -58,6 +61,7 @@ const getFormDataFromURL = (): ILogFormData => {
 
     const resetForm = () => {
         setFormData({
+            sort: 'Descending',
             limit: '100',
             startDate: today,
             startTime: '00:00',
@@ -83,6 +87,7 @@ const getFormDataFromURL = (): ILogFormData => {
         params.set('limit', formData.limit);
         formData.apps.forEach(a => params.append('apps', a));
         formData.levels.forEach(l => params.append('levels', l));
+        params.set('sortDescending', formData.sort === 'Descending' ? 'true' : 'false');
         formData.includedNamespaces.forEach(n => params.append('includedNamespaces', n));
         formData.excludedNamespaces.forEach(n => params.append('excludedNamespaces', n));
 
@@ -140,6 +145,13 @@ const getFormDataFromURL = (): ILogFormData => {
                 items={LIMITS}
                 selection={formData.limit}
                 onSelection={(value) => updateField('limit', value)}
+            />
+
+            <SingleSelect
+                label='Sort'
+                items={['Descending', 'Ascending']}
+                selection={formData.sort}
+                onSelection={(value) => updateField('sort', value as 'Descending' | 'Ascending')}
             />
 
             <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
