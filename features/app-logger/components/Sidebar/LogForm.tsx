@@ -5,6 +5,7 @@ import { useNavigationContext } from "../NavigationContext";
 import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
+import { parseDateTime } from "../../utils";
 
 const LIMITS = ['100', '150', '200', '250'];
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
@@ -27,17 +28,22 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
     const today = new Date().toLocaleDateString('en-CA');
     const { isPending, navigate, refresh } = useNavigationContext();
 
-    const getFormDataFromURL = (): ILogFormData => ({
+
+const getFormDataFromURL = (): ILogFormData => {
+    const startDateTime = parseDateTime(searchParams.get('startDateTime'));
+    const endDateTime = parseDateTime(searchParams.get('endDateTime'));
+    return {
         limit: searchParams.get('limit') || '100',
-        startDate: searchParams.get('startDate') || today,
-        startTime: searchParams.get('startTime') || '00:00',
-        endDate: searchParams.get('endDate') || '',
-        endTime: searchParams.get('endTime') || '',
+        startDate: startDateTime?.date || today,
+        startTime: startDateTime?.time || '00:00',
+        endDate: endDateTime?.date || '',
+        endTime: endDateTime?.time || '',
         apps: searchParams.getAll('apps'),
         levels: searchParams.getAll('levels'),
         includedNamespaces: searchParams.getAll('includedNamespaces'),
         excludedNamespaces: searchParams.getAll('excludedNamespaces'),
-    });
+    };
+};
 
     const [formData, setFormData] = useState<ILogFormData>(getFormDataFromURL());
 

@@ -22,6 +22,15 @@ export function parseJsonMessage(value: string): { isJson: boolean; formatted: s
     }
 };
 
+export function parseDateTime(datetime: string | null): { date: string; time: string } | null {
+    if (!datetime) return null;
+    const parts = datetime.split('T');
+    if (parts.length !== 2) return null;
+    const date = parts[0];
+    const time = parts[1].substring(0, 5); 
+    return { date, time };
+}
+
 export const levelConfig: Record<LogLevel, { label: string; badgeColor: string }> = {
     Debug: {
         label: "DEBUG",
