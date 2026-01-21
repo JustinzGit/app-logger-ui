@@ -1,10 +1,11 @@
 import LogForm from "./LogForm";
-import { ILogResponse } from "../../types";
 import LogSidebarFooter from "./LogSidebarFooter";
 import LogSidebarHeader from "./LogSidebarHeader";
+import { Suspense } from "react";
+import { LogFormFallback } from "./LogFormFallback";
 
 interface ILogSideBarProps {
-    appNamePromise: Promise<string[]>; 
+    appNamePromise: Promise<string[]>;
     namespacePromise: Promise<string[]>;
 }
 
@@ -17,10 +18,12 @@ export default function LogSidebar({ appNamePromise, namespacePromise }: ILogSid
                 </div>
 
                 <div className="p-4 flex justify-center flex-1 overflow-y-auto">
-                    <LogForm
-                        appNamePromise={appNamePromise}
-                        namespacePromise={namespacePromise} 
-                    />
+                    <Suspense fallback={<LogFormFallback />}>
+                        <LogForm
+                            appNamePromise={appNamePromise}
+                            namespacePromise={namespacePromise}
+                        />
+                    </Suspense>
                 </div>
                 <LogSidebarFooter />
             </div>

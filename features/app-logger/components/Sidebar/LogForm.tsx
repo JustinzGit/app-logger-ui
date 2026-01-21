@@ -31,6 +31,10 @@ interface ILogFormProps {
 export default function LogForm({ appNamePromise, namespacePromise }: ILogFormProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+
+    const appNames = use(appNamePromise);
+    const namespaces = use(namespacePromise);
+
     const today = new Date().toLocaleDateString('en-CA');
     const { isPending, navigate, refresh } = useNavigationContext();
 
@@ -113,15 +117,13 @@ export default function LogForm({ appNamePromise, namespacePromise }: ILogFormPr
 
             <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
 
-            <Suspense fallback={<MultiSelect label='Loading App Names...' items={[]} selectedItems={[]} onSelection={() => null} />}>
-                <MultiSelect
-                    searchable
-                    label='Apps'
-                    items={appNamePromise}
-                    selectedItems={formData.apps}
-                    onSelection={(value) => updateField('apps', value)}
-                />
-            </Suspense>
+            <MultiSelect
+                searchable
+                label='Apps'
+                items={appNames}
+                selectedItems={formData.apps}
+                onSelection={(value) => updateField('apps', value)}
+            />
 
             <MultiSelect
                 label='Levels'
@@ -130,25 +132,21 @@ export default function LogForm({ appNamePromise, namespacePromise }: ILogFormPr
                 onSelection={(value) => updateField('levels', value)}
             />
 
-            <Suspense fallback={<MultiSelect label='Loading Namespaces...' items={[]} selectedItems={[]} onSelection={() => null} />}>
-                <MultiSelect
-                    searchable
-                    label='Included Namespaces'
-                    items={namespacePromise}
-                    selectedItems={formData.includedNamespaces}
-                    onSelection={(value) => updateField('includedNamespaces', value)}
-                />
-            </Suspense>
+            <MultiSelect
+                searchable
+                label='Included Namespaces'
+                items={namespaces}
+                selectedItems={formData.includedNamespaces}
+                onSelection={(value) => updateField('includedNamespaces', value)}
+            />
 
-            <Suspense fallback={<MultiSelect label='Loading Namespaces...' items={[]} selectedItems={[]} onSelection={() => null} />}>
-                <MultiSelect
-                    searchable
-                    label='Excluded Namespaces'
-                    items={namespacePromise}
-                    selectedItems={formData.excludedNamespaces}
-                    onSelection={(value) => updateField('excludedNamespaces', value)}
-                />
-            </Suspense>
+            <MultiSelect
+                searchable
+                label='Excluded Namespaces'
+                items={namespaces}
+                selectedItems={formData.excludedNamespaces}
+                onSelection={(value) => updateField('excludedNamespaces', value)}
+            />
 
             <SingleSelect
                 label='Limit'
