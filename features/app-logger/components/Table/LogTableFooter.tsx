@@ -20,7 +20,7 @@ export default function LogTableFooter({ totalResults, loadMoreLogs, hasMoreLogs
                     onClick={loadMoreLogs}
                     disabled={!hasMoreLogs}
                     className="cursor-pointer inline-flex items-center rounded-md bg-baylor-blue-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-baylor-blue-300 disabled:opacity-40 disabled:cursor-not-allowed">
-                    {isFetching ? 'Loading...' : 'Load More'}
+                    {isFetching ? 'Loading...' : !hasMoreLogs ? 'End of Logs' : 'Load More'}
                 </button>
             </div>
         </div>
