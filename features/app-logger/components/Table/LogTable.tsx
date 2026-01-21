@@ -22,7 +22,7 @@ export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClic
 
         // Resetting logs 
         else if (logs.length < prevCountRef.current && logs.length > 0) {
-            const firstLog = logs[0]; 
+            const firstLog = logs[0];
             if (firstLog) {
                 const row = document.getElementById(`log-row-${firstLog.id}`);
                 row?.scrollIntoView({ behavior: "smooth", block: "end" });
@@ -68,6 +68,13 @@ export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClic
                         </tr>
                     )
                 })}
+                {logs.length === 0 && (
+                    <tr>
+                        <td colSpan={5} className="py-6 text-center text-xl text-gray-500 dark:text-gray-300">
+                            No logs found
+                        </td>
+                    </tr>
+                )}
             </tbody>
         </table>
     )
