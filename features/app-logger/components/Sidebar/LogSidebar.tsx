@@ -3,8 +3,7 @@ import { ILogResponse } from "../../types";
 import LogSidebarFooter from "./LogSidebarFooter";
 import LogSidebarHeader from "./LogSidebarHeader";
 
-export default function LogSidebar({ appNames, logResponse }: { appNames: string[]; logResponse: ILogResponse }) {
-    const namespaces = [...new Set(logResponse.logs.map(l => l.sourceContext).filter(sc => sc !== null))].sort((a, b) => b.length - a.length);
+export default function LogSidebar({ appNames, logResponse, namespaces }: { appNames: string[]; logResponse: ILogResponse, namespaces: string[] }) {
     return (
         <div className="mt-2 bg-white dark:bg-gray-800 w-75 h-full rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
             <div className="relative h-full flex flex-col">

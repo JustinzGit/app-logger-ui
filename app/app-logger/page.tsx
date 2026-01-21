@@ -1,13 +1,15 @@
 import { SearchParams } from "next/dist/server/request/search-params";
 import { ILogResponse } from "@/features/app-logger/types";
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
-import { getAppNames, getErrorCounts, getLogs } from "@/features/app-logger/actions";
+import { getAppNames, getErrorCounts, getLogs, getNameSpaces } from "@/features/app-logger/actions";
 import { NavigationProvider } from "@/features/app-logger/components/NavigationContext";
 import LogSidebar from "@/features/app-logger/components/Sidebar/LogSidebar";
 import { Logging } from "@/features/app-logger/components/Table/Logging";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
+
+    const namespaces = await getNameSpaces();
     const errorCounts = await getErrorCounts();
     const appNames: string[] = await getAppNames();
     const logResponse: ILogResponse = await getLogs(params);
@@ -18,7 +20,9 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
                 <div className="row-span-2 flex flex-col items-center">
                     <LogSidebar
                         appNames={appNames}
-                        logResponse={logResponse} />
+                        namespaces={namespaces}
+                        logResponse={logResponse} 
+                    />
                 </div>
 
                 <div>
