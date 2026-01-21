@@ -24,11 +24,11 @@ interface ILogFormData {
 }
 
 interface ILogFormProps {
-    appNamePromise: Promise<string[]>;
-    namespacePromise: Promise<string[]>;
+    appNames: Promise<string[]>;
+    namespaces: Promise<string[]>;
 }
 
-export default function LogForm({ appNamePromise, namespacePromise }: ILogFormProps) {
+export default function LogForm({ appNames: appNamePromise, namespaces: namespacePromise }: ILogFormProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
 

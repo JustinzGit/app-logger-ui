@@ -10,9 +10,9 @@ import { Suspense } from "react";
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
 
-    const appNamePromise = getAppNames();
-    const namespacePromise = getNameSpaces();
-    const errorCountPromise = getErrorCounts();
+    const appNames = getAppNames();
+    const namespaces = getNameSpaces();
+    const errorCounts = getErrorCounts();
     const logResponse = await getLogs(params);
 
     return (
@@ -20,16 +20,16 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
             <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
                 <div className="row-span-2 flex flex-col items-center">
                     <LogSidebar
-                        appNamePromise={appNamePromise}
-                        namespacePromise={namespacePromise}
+                        appNames={appNames}
+                        namespaces={namespaces}
                     />
                 </div>
 
                 <div>
                     <Suspense fallback={<ErrorPanelFallback />}>
                         <ErrorPanel
-                            appNamePromise={appNamePromise}
-                            errorCountPromise={errorCountPromise}
+                            appNames={appNames}
+                            errorCounts={errorCounts}
                         /> 
                     </Suspense>
                 </div>
