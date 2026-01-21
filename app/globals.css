@@ -129,6 +129,14 @@ body {
         background-color: var(--color-baylor-blue-300); 
         color: white; 
     }
+    20% {
+        background-color: var(--color-baylor-blue-300);
+        color: white;
+    }
+    60% {
+        background-color: var(--color-baylor-blue-300);
+        color: white;
+    }
     100% { 
         background-color: white; 
         color: black; 
@@ -136,5 +144,5 @@ body {
 }
 
 .animate-flash {
-    animation: flash-blue 3s ease-in forwards;
+    animation: flash-blue 1.5s ease-out forwards;
 }
