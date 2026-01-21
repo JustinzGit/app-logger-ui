@@ -148,6 +148,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
                         id="startDate"
                         name="startDate"
                         value={formData.startDate}
+                        onMouseDown={(e) => e.preventDefault()}
                         onChange={(event) => updateField('startDate', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
@@ -164,6 +165,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
                         id="startTime"
                         name="startTime"
                         value={formData.startTime}
+                        onMouseDown={(e) => e.preventDefault()}
                         onChange={(event) => updateField('startTime', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
@@ -180,6 +182,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
                         id="endDate"
                         name="endDate"
                         value={formData.endDate}
+                        onMouseDown={(e) => e.preventDefault()}
                         onChange={(event) => updateField('endDate', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
@@ -196,6 +199,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
                         id="endTime"
                         name="endTime"
                         value={formData.endTime}
+                        onMouseDown={(e) => e.preventDefault()}
                         onChange={(event) => updateField('endTime', event.target.value)}
                         onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
