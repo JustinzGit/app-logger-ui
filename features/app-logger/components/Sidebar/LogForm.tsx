@@ -25,7 +25,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const today = new Date().toLocaleDateString('en-CA');
-    const { isPending, navigate } = useNavigationContext();
+    const { isPending, navigate, refresh } = useNavigationContext();
 
     const getFormDataFromURL = (): ILogFormData => ({
         limit: searchParams.get('limit') || '100',
@@ -80,7 +80,14 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
         formData.includedNamespaces.forEach(n => params.append('includedNamespaces', n));
         formData.excludedNamespaces.forEach(n => params.append('excludedNamespaces', n));
 
-        navigate(`${pathname}?${params.toString()}`);
+        const newQueryString = params.toString();
+        const currentQueryString = searchParams.toString();
+        if (newQueryString === currentQueryString) {
+            refresh();
+        }
+        else {
+            navigate(`${pathname}?${newQueryString}`);
+        }
     }
 
     return (

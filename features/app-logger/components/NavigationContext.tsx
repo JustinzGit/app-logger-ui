@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 interface NavigationContextType {
     isPending: boolean;
+    refresh: () => void;
     navigate: (url: string) => void;
 }
 
@@ -18,8 +19,12 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
         startTransition(() => router.push(url));
     };
 
+    const refresh = () => {
+        startTransition(() => router.refresh());
+    };
+
     return (
-        <NavigationContext.Provider value={{ isPending, navigate }}>
+        <NavigationContext.Provider value={{ isPending, navigate, refresh }}>
             {children}
         </NavigationContext.Provider>
     );

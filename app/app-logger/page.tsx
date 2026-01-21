@@ -8,7 +8,6 @@ import { Logging } from "@/features/app-logger/components/Table/Logging";
 
 export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
     const params = await searchParams;
-    const paramKey = JSON.stringify(params);
     const errorCounts = await getErrorCounts();
     const appNames: string[] = await getAppNames();
     const logResponse: ILogResponse = await getLogs(params);
@@ -31,8 +30,8 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
 
                 <div className="col-start-2 row-start-2 min-h-0">
                     <Logging
-                        key={paramKey}
                         logResponse={logResponse}
+                        key={JSON.stringify(params) + Date.now()}
                     />
                 </div>
             </div>
