@@ -12,11 +12,8 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
 
     const appNamePromise = getAppNames();
     const namespacePromise = getNameSpaces();
-
-    const [errorCounts, logResponse] = await Promise.all([
-        getErrorCounts(),
-        getLogs(params)
-    ]);
+    const errorCountPromise = getErrorCounts();
+    const logResponse = await getLogs(params);
 
     return (
         <NavigationProvider>
@@ -31,9 +28,9 @@ export default async function AppLogger({ searchParams }: { searchParams: Search
                 <div>
                     <Suspense fallback={<ErrorPanelFallback />}>
                         <ErrorPanel
-                            errorCounts={errorCounts}
                             appNamePromise={appNamePromise}
-                        />
+                            errorCountPromise={errorCountPromise}
+                        /> 
                     </Suspense>
                 </div>
 

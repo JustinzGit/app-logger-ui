@@ -5,13 +5,14 @@ import { useNavigationContext } from "./NavigationContext";
 import { use } from "react";
 
 interface IErrorPanelProps {
-    errorCounts: { app: string; count: number }[];
     appNamePromise: Promise<string[]>;
+    errorCountPromise: Promise<{ app: string; count: number }[]>;
 }
 
-export function ErrorPanel({ errorCounts, appNamePromise }: IErrorPanelProps) {
+export function ErrorPanel({ errorCountPromise, appNamePromise }: IErrorPanelProps) {
     const pathname = usePathname();
     const appNames = use(appNamePromise);
+    const errorCounts = use(errorCountPromise);
     const { navigate } = useNavigationContext();
 
     const countedApps = errorCounts.map(e => e.app);
