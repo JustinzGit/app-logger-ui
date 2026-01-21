@@ -99,6 +99,7 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
             <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
 
             <MultiSelect
+                searchable
                 label='Apps'
                 items={appNames}
                 selectedItems={formData.apps}
