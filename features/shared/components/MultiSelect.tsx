@@ -1,18 +1,21 @@
 'use client'
 
 import { Checkbox } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { use, useEffect, useRef, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 interface IMultiSelectProps {
     label: string;
-    items: string[];
+    items: string[] | Promise<string[]>;
     searchable?: boolean;
     selectedItems: string[];
     onSelection: (selected: string[]) => void;
 }
 
 export function MultiSelect({ label, items, onSelection, selectedItems, searchable = false }: IMultiSelectProps) {
+    
+    const selectableItems = items instanceof Promise ? use(items) : items;
+    
     const [selected, isSelected] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const rootRef = useRef<HTMLDivElement | null>(null);
@@ -40,8 +43,8 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
     })();
 
     const filteredItems = searchable && searchQuery
-        ? items.filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()))
-        : items;
+        ? selectableItems.filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()))
+        : selectableItems;
 
     return (
         <div ref={rootRef} className="mt-2 relative w-full min-w-0">

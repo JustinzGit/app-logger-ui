@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, Suspense, use, useEffect, useState } from "react";
 import { useNavigationContext } from "../NavigationContext";
 import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
@@ -23,17 +23,21 @@ interface ILogFormData {
     excludedNamespaces: string[];
 }
 
-export default function LogForm({ appNames, namespaces }: { appNames: string[]; namespaces: string[] }) {
+interface ILogFormProps {
+    appNamePromise: Promise<string[]>;
+    namespacePromise: Promise<string[]>;
+}
+
+export default function LogForm({ appNamePromise, namespacePromise }: ILogFormProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const today = new Date().toLocaleDateString('en-CA');
     const { isPending, navigate, refresh } = useNavigationContext();
 
-
     const getFormDataFromURL = (): ILogFormData => {
         const startDateTime = parseDateTime(searchParams.get('startDateTime'));
         const endDateTime = parseDateTime(searchParams.get('endDateTime'));
-        const sort = searchParams.get('sortDescendingending') === 'false' ? 'Ascending' : 'Descending'; 
+        const sort = searchParams.get('sortDescendingending') === 'false' ? 'Ascending' : 'Descending';
         return {
             sort,
             limit: searchParams.get('limit') || '100',
@@ -109,13 +113,15 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
 
             <div className="mb-4 h-px w-full bg-gray-200 dark:bg-white/10" />
 
-            <MultiSelect
-                searchable
-                label='Apps'
-                items={appNames}
-                selectedItems={formData.apps}
-                onSelection={(value) => updateField('apps', value)}
-            />
+            <Suspense fallback={<MultiSelect label='Loading App Names...' items={[]} selectedItems={[]} onSelection={() => null} />}>
+                <MultiSelect
+                    searchable
+                    label='Apps'
+                    items={appNamePromise}
+                    selectedItems={formData.apps}
+                    onSelection={(value) => updateField('apps', value)}
+                />
+            </Suspense>
 
             <MultiSelect
                 label='Levels'
@@ -124,21 +130,25 @@ export default function LogForm({ appNames, namespaces }: { appNames: string[]; 
                 onSelection={(value) => updateField('levels', value)}
             />
 
-            <MultiSelect
-                searchable
-                label='Included Namespaces'
-                items={namespaces}
-                selectedItems={formData.includedNamespaces}
-                onSelection={(value) => updateField('includedNamespaces', value)}
-            />
+            <Suspense fallback={<MultiSelect label='Loading Namespaces...' items={[]} selectedItems={[]} onSelection={() => null} />}>
+                <MultiSelect
+                    searchable
+                    label='Included Namespaces'
+                    items={namespacePromise}
+                    selectedItems={formData.includedNamespaces}
+                    onSelection={(value) => updateField('includedNamespaces', value)}
+                />
+            </Suspense>
 
-            <MultiSelect
-                searchable
-                label='Excluded Namespaces'
-                items={namespaces}
-                selectedItems={formData.excludedNamespaces}
-                onSelection={(value) => updateField('excludedNamespaces', value)}
-            />
+            <Suspense fallback={<MultiSelect label='Loading Namespaces...' items={[]} selectedItems={[]} onSelection={() => null} />}>
+                <MultiSelect
+                    searchable
+                    label='Excluded Namespaces'
+                    items={namespacePromise}
+                    selectedItems={formData.excludedNamespaces}
+                    onSelection={(value) => updateField('excludedNamespaces', value)}
+                />
+            </Suspense>
 
             <SingleSelect
                 label='Limit'

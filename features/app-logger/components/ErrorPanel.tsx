@@ -2,9 +2,16 @@
 
 import { usePathname } from "next/navigation";
 import { useNavigationContext } from "./NavigationContext";
+import { use } from "react";
 
-export function ErrorPanel({ errorCounts, appNames }: { errorCounts: { app: string; count: number }[], appNames: string[] }) {
+interface IErrorPanelProps {
+    errorCounts: { app: string; count: number }[];
+    appNamePromise: Promise<string[]>;
+}
+
+export function ErrorPanel({ errorCounts, appNamePromise }: IErrorPanelProps) {
     const pathname = usePathname();
+    const appNames = use(appNamePromise);
     const { navigate } = useNavigationContext();
 
     const countedApps = errorCounts.map(e => e.app);
