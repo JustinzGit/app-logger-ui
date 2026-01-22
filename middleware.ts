@@ -10,7 +10,7 @@ export function middleware(request: NextRequest) {
 
         const url = request.nextUrl.clone();
         url.pathname = '/app-logger'; 
-        url.searchParams.set('sortDescending', 'true');
+        url.searchParams.set('sortDescending', 'false');
         url.searchParams.set('startDateTime', date);
         url.searchParams.set('logDay', day);
         url.searchParams.set('limit', '100');

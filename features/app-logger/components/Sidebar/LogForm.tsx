@@ -69,7 +69,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
 
     const resetForm = () => {
         setFormData({
-            sort: 'Descending',
+            sort: 'Ascending',
             limit: '100',
             startDate: today,
             startTime: '00:00',
