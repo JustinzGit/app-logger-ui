@@ -1,6 +1,6 @@
 "use client"
 
-import { FormEvent, Suspense, use, useEffect, useState } from "react";
+import { FormEvent, use, useEffect, useState } from "react";
 import { useNavigationContext } from "../NavigationContext";
 import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
