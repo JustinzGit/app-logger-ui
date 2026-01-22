@@ -41,7 +41,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
     const getFormDataFromURL = (): ILogFormData => {
         const startDateTime = parseDateTime(searchParams.get('startDateTime'));
         const endDateTime = parseDateTime(searchParams.get('endDateTime'));
-        const sort = searchParams.get('sortDescendingending') === 'false' ? 'Ascending' : 'Descending';
+        const sort = searchParams.get('sortDescending') === 'false' ? 'Ascending' : 'Descending';
         return {
             sort,
             limit: searchParams.get('limit') || '100',
