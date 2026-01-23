@@ -144,5 +144,5 @@ body {
 }
 
 .animate-flash {
-    animation: flash-blue 1.5s ease-out forwards;
+    animation: flash-blue 3s ease-out forwards;
 }
