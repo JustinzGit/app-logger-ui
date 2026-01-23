@@ -22,6 +22,25 @@ export function parseJsonMessage(value: string): { isJson: boolean; formatted: s
     }
 };
 
+export function extractJsonFromMessage(message: string): { text: string; json: string | null } {
+    const jsonObjectRegex = /\{[\s\S]*\}/;
+    const jsonArrayRegex = /\[[\s\S]*\]/;
+    
+    let match = message.match(jsonObjectRegex) || message.match(jsonArrayRegex);
+    
+    if (match) {
+        try {
+            const parsed = JSON.parse(match[0]);
+            const formatted = JSON.stringify(parsed, null, 2);
+            return { text: message, json: formatted };
+        } 
+        catch {
+            return { text: message, json: null };
+        }
+    }
+    return { text: message, json: null };
+}
+
 export function parseDateTime(datetime: string | null): { date: string; time: string } | null {
     if (!datetime) return null;
     const parts = datetime.split('T');
