@@ -14,7 +14,7 @@ export function useLogPagination(logResponse: ILogResponse) {
     const [cursorId, setCursorId] = useState(logResponse.cursorId);
 
     const loadMoreLogs = async () => {
-        if (isFetching || !cursorId || !hasMore) return;
+        if (isFetching || !cursorId) return;
 
         try {
             setIsFetching(true);
@@ -32,7 +32,7 @@ export function useLogPagination(logResponse: ILogResponse) {
                 }
             });
             setHasMore(nextResponse.hasMore);
-            setCursorId(nextResponse.cursorId);
+            setCursorId(nextResponse.cursorId ?? cursorId);
         }
         catch (error) {
             throw new Error("Failed to load more logs");
