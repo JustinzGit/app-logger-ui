@@ -148,21 +148,23 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
                 onSelection={(value) => updateField('excludedNamespaces', value)}
             />
 
-            <SingleSelect
-                label='Limit'
-                items={LIMITS}
-                selection={formData.limit}
-                onSelection={(value) => updateField('limit', value)}
-            />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <SingleSelect
+                    label='Limit'
+                    items={LIMITS}
+                    selection={formData.limit}
+                    onSelection={(value) => updateField('limit', value)}
+                />
 
-            <SingleSelect
-                label='Sort'
-                items={['Descending', 'Ascending']}
-                selection={formData.sort}
-                onSelection={(value) => updateField('sort', value as 'Descending' | 'Ascending')}
-            />
+                <SingleSelect
+                    label='Sort'
+                    items={['Descending', 'Ascending']}
+                    selection={formData.sort}
+                    onSelection={(value) => updateField('sort', value as 'Descending' | 'Ascending')}
+                />
+            </div>
 
-            <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3">
 
                 <div className="relative">
                     <label htmlFor="startDate" className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition peer-focus:text-baylor-blue-100 dark:text-gray-400">
