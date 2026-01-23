@@ -6,22 +6,6 @@ export function formatLogTime(logTime: string) {
     return formatted;
 }
 
-export function parseJsonMessage(value: string): { isJson: boolean; formatted: string } {
-    const trimmed = value.trim();
-
-    if (!trimmed.startsWith("{") && !trimmed.startsWith("[")) {
-        return { isJson: false, formatted: value };
-    }
-
-    try {
-        const parsed = JSON.parse(trimmed);
-        return { isJson: true, formatted: JSON.stringify(parsed, null, 2) };
-    } 
-    catch {
-        return { isJson: false, formatted: value };
-    }
-};
-
 export function extractJsonFromMessage(message: string): { text: string; json: string | null } {
     const jsonObjectRegex = /\{[\s\S]*\}/;
     const jsonArrayRegex = /\[[\s\S]*\]/;
