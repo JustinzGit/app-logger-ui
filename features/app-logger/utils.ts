@@ -7,10 +7,18 @@ export function formatLogTime(logTime: string) {
 }
 
 export function extractJsonFromMessage(message: string): { text: string; json: string | null } {
-    const jsonObjectRegex = /\{[\s\S]*\}/;
-    const jsonArrayRegex = /\[[\s\S]*\]/;
+    const trimmed = message.trim();
     
-    let match = message.match(jsonObjectRegex) || message.match(jsonArrayRegex);
+    let match;
+    if (trimmed.startsWith('[')) {
+        match = trimmed.match(/\[[\s\S]*\]/);
+    } 
+    else if (trimmed.startsWith('{')) {
+        match = trimmed.match(/\{[\s\S]*\}/);
+    }
+     else {
+        match = trimmed.match(/\[[\s\S]*\]/) || trimmed.match(/\{[\s\S]*\}/);
+    }
     
     if (match) {
         try {
