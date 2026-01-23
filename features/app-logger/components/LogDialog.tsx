@@ -97,7 +97,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                                     {levelConfig[currentLog.level as LogLevel]?.label ?? currentLog.level}
                                 </span>
                             </div>
-                            <div className="mt-2 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm">
+                            <div className="mt-2 bg-gray-100 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm max-h-96 overflow-y-auto">
                                 {isJsonMessage ? (
                                     <div className="space-y-2">
                                         <div className="relative">
@@ -107,13 +107,13 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                                                 className="cursor-pointer text-xs px-2 py-1 rounded border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800 absolute top-2 right-2">
                                                 COPY
                                             </button>
-                                            <pre className="text-sm text-cyan-200/90 dark:text-white whitespace-pre-wrap wrap-break-word font-mono bg-[#202124] dark:bg-gray-900 p-3 pr-12 rounded border border-gray-200 dark:border-gray-700 overflow-x-auto max-h-96 overflow-y-auto">
+                                            <pre className="text-sm text-cyan-200/90 dark:text-white whitespace-pre-wrap wrap-break-word font-mono bg-[#202124] dark:bg-gray-900 p-3 pr-12 rounded border border-gray-200 dark:border-gray-700 overflow-x-auto">
                                                 {formattedMessage}
                                             </pre>
                                         </div>
                                     </div>
                                 ) : (
-                                    <p className="text-sm text-gray-900 dark:text-white whitespace-pre-wrap wrap-break-word max-h-96 overflow-y-auto">{currentLog.message}</p>
+                                    <p className="text-sm text-gray-900 dark:text-white whitespace-pre-wrap wrap-break-word">{currentLog.message}</p>
                                 )}
                             </div>
                         </div>
@@ -121,9 +121,11 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
                         {currentLog.exception && (
                             <div>
                                 <label className="text-xs font-semibold text-gray-600 dark:text-gray-400 uppercase">Exception</label>
-                                <pre className="mt-1 text-xs text-white dark:text-white bg-black dark:bg-gray-800 p-3 rounded max-h-96 overflow-y-auto whitespace-pre-wrap">
-                                    {currentLog.exception}
-                                </pre>
+                                <div className="mt-1 bg-black dark:bg-gray-800 p-3 rounded border border-gray-200 dark:border-gray-700 max-h-96 overflow-y-auto">
+                                    <pre className="text-xs text-white dark:text-white whitespace-pre-wrap">
+                                        {currentLog.exception}
+                                    </pre>
+                                </div>
                             </div>
                         )}
                     </div>
