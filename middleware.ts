@@ -13,7 +13,7 @@ export function middleware(request: NextRequest) {
         url.searchParams.set('sortDescending', 'false');
         url.searchParams.set('startDateTime', date);
         url.searchParams.set('logDay', day);
-        url.searchParams.set('limit', '100');
+        url.searchParams.set('limit', '50');
 
         return NextResponse.redirect(url);
     }
