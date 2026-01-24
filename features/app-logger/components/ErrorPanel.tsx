@@ -17,7 +17,7 @@ export function ErrorPanel({ errorCounts: errorCountPromise, appNames: appNamePr
 
     const countedApps = errorCounts.map(e => e.app);
     const zeroCountApps = appNames.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
-    const displayCounts = [...errorCounts, ...zeroCountApps];
+    const displayCounts = [...errorCounts, ...zeroCountApps].sort((a, b) => b.count - a.count);
 
     function showAppErrors(appName: string) {
         const today = new Date();
