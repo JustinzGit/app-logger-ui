@@ -14,13 +14,13 @@ export function extractJsonFromMessage(message: string): { text: string; json: s
     const braceIndex = trimmed.indexOf('{');
     
     if (bracketIndex !== -1 && (braceIndex === -1 || bracketIndex < braceIndex)) {
-        match = trimmed.match(/\[[\s\S]*\]/);
+        match = trimmed.match(/\[\s*\{[\s\S]*\]/);
     } 
     else if (braceIndex !== -1) {
         match = trimmed.match(/\{[\s\S]*\}/);
     }
     else {
-        match = trimmed.match(/\[[\s\S]*\]/) || trimmed.match(/\{[\s\S]*\}/);
+        match = trimmed.match(/\[\s*\{[\s\S]*\]/) || trimmed.match(/\{[\s\S]*\}/);
     }
     
     if (match) {
