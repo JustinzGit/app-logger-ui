@@ -3,6 +3,7 @@
 import { Checkbox } from '@mui/material';
 import { use, useEffect, useRef, useState } from 'react';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import CloseIcon from '@mui/icons-material/Close';
 
 interface IMultiSelectProps {
     label: string;
@@ -34,7 +35,6 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
             ? selectedItems.filter(x => x !== item)
             : [...selectedItems, item];
         onSelection(next);
-        setSearchQuery('');
     }
 
     const displayLabel = (() => {
@@ -68,14 +68,27 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
                     className="-translate-x-0.5 mt-2 scroll-bar fixed z-50 min-w-67 cursor-pointer rounded-md bg-gray-50 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto">
                     {searchable && (
                         <div className="sticky top-0 z-10 dark:bg-gray-900 px-2 pt-1.5 pb-2">
-                            <input
-                                type="text"
-                                value={searchQuery}
-                                placeholder="Search..."
-                                onClick={(e) => e.stopPropagation()}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full h-10 px-2 py-1 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-outline focus:border-baylor-blue-100"
-                            />
+                            <div className="relative">
+                                <input
+                                    type="text"
+                                    value={searchQuery}
+                                    placeholder="Search..."
+                                    onClick={(e) => e.stopPropagation()}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    className="w-full h-10 px-2 py-1 pr-8 text-sm rounded border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:outline-outline focus:border-baylor-blue-100"
+                                />
+                                {searchQuery && (
+                                    <button
+                                        type="button"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setSearchQuery('');
+                                        }}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-0.5 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 cursor-pointer">
+                                        <CloseIcon fontSize="small" />
+                                    </button>
+                                )}
+                            </div>
                         </div>
                     )}
                     <div className="px-1 py-1 pb-1.5 space-y-1">
