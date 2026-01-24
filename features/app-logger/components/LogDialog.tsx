@@ -42,7 +42,7 @@ export default function LogDialog({ logs, selectedIndex, onClose, onNavigate }: 
 
             <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-[60vw] min-[1500px]:w-[80vw] max-h-[90vh] flex flex-col">
+                className="bg-white dark:bg-gray-900 rounded-lg shadow-xl w-[60vw] min-[1500px]:w-[80vw] min-w-[800px] max-h-[90vh] flex flex-col">
 
                 {/* Header */}
                 <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
