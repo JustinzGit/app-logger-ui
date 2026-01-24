@@ -92,6 +92,11 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
         if (startDateTime) params.set('startDateTime', startDateTime);
         if (endDateTime) params.set('endDateTime', endDateTime);
 
+        if (!endDateTime && formData.startDate) {
+            const day = formData.startDate.split('-')[2];
+            if (day) params.set('logDay', day);
+        }
+
         params.set('limit', formData.limit);
         formData.apps.forEach(a => params.append('apps', a));
         formData.levels.forEach(l => params.append('levels', l));
