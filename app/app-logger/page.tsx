@@ -7,14 +7,13 @@ import { Logging } from "@/features/app-logger/components/Table/Logging";
 import { useAppNames, useLogs } from "@/features/app-logger/actions";
 import { useSearchParams } from "next/navigation";
 import Loading from "./loading";
-import Error from "./error"
 
 export default function AppLogger() {
     const params = useSearchParams();
     const { data: appNames, error: appNameError } = useAppNames();
     const { data: logResponse, loading: logsLoading, error: logsError } = useLogs(params);
 
-    if (appNameError || logsError) return <Error />
+    if (appNameError || logsError) throw new Error();
     if (!logResponse) return <Loading />
     return (
         <NavigationProvider loading={logsLoading}>

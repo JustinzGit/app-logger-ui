@@ -8,7 +8,6 @@ import { MultiSelect } from "@/features/shared/components/MultiSelect";
 import { parseDateTime } from "../../utils";
 import { useNameSpaces } from "../../actions";
 import { LogFormFallback } from "./LogFormFallback";
-import Error from "@/app/app-logger/error";
 
 const LIMITS = ['50', '100', '150', '200', '250'];
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
@@ -111,7 +110,7 @@ export default function LogForm({ appNames }: { appNames: string[] | null }) {
         }
     }
 
-    if (namespaceError) return <Error />
+    if (namespaceError) throw new Error(namespaceError);
     if (namespacesLoading || !namespaces || !appNames)  return <LogFormFallback />
     return (
         <form onSubmit={handleSubmit} className="w-full">

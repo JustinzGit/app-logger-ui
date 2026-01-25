@@ -6,13 +6,12 @@ import { useState } from "react";
 import LogTableFooter from "./LogTableFooter";
 import LogDialog from "../LogDialog";
 import { useLogPagination } from "../../hooks/useLogPagination";
-import Error from "@/app/app-logger/error";
 
 export function Logging({ logResponse }: { logResponse: ILogResponse }) {
     const [selectedLogIndex, setSelectedLogIndex] = useState<number | null>(null);    
     const { logs, hasMore, isFetching, loadMoreLogs, error } = useLogPagination(logResponse);
     
-    if (error) return <Error />
+    if (error) throw new Error(error);
     return (
         <>
             <div className="h-full flex flex-col min-h-0 bg-white dark:bg-gray-800 rounded-xl shadow-lg border border-gray-200 dark:border-gray-700 overflow-hidden">
