@@ -7,11 +7,12 @@ interface NavigationContextType {
     isPending: boolean;
     refresh: () => void;
     navigate: (url: string) => void;
+    loading: boolean;
 }
 
 const NavigationContext = createContext<NavigationContextType | undefined>(undefined);
 
-export function NavigationProvider({ children }: { children: ReactNode }) {
+export function NavigationProvider({ children, loading = false }: { children: ReactNode; loading?: boolean; }) {
     const router = useRouter();
     const [isPending, startTransition] = useTransition();
 
@@ -24,7 +25,7 @@ export function NavigationProvider({ children }: { children: ReactNode }) {
     };
 
     return (
-        <NavigationContext.Provider value={{ isPending, navigate, refresh }}>
+        <NavigationContext.Provider value={{ isPending, navigate, refresh, loading }}>
             {children}
         </NavigationContext.Provider>
     );

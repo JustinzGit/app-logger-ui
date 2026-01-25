@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
 import "./globals.css";
+import ClientRouteGuard from "@/features/shared/components/RedirectController";
+import { Suspense } from "react";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -23,7 +25,15 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <html lang="en">
             <AppRouterCacheProvider>
                 <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-                    {children}
+                    {/* 
+                        wrapped in suspense because when using useSearchParams at the top level
+                        without suspense can cause the entire build to deopt to client side rendering or throw build warnings
+                    */}
+                    <Suspense fallback={null}>
+                        <ClientRouteGuard>
+                            {children}
+                        </ClientRouteGuard>
+                    </Suspense>
                 </body>
             </AppRouterCacheProvider>
         </html>
