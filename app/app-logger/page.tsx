@@ -1,37 +1,34 @@
-import { SearchParams } from "next/dist/server/request/search-params";
+'use client'
+
 import { ErrorPanel } from "@/features/app-logger/components/ErrorPanel";
-import { ErrorPanelFallback } from "@/features/app-logger/components/ErrorPanelFallback";
-import { getAppNames, getErrorCounts, getLogs, getNameSpaces } from "@/features/app-logger/actions";
 import { NavigationProvider } from "@/features/app-logger/components/NavigationContext";
 import LogSidebar from "@/features/app-logger/components/Sidebar/LogSidebar";
 import { Logging } from "@/features/app-logger/components/Table/Logging";
-import { Suspense } from "react";
+import { useAppNames, useLogs } from "@/features/app-logger/actions";
+import { useSearchParams } from "next/navigation";
+import Loading from "./loading";
+import Error from "./error"
 
-export default async function AppLogger({ searchParams }: { searchParams: SearchParams }) {
-    const params = await searchParams;
+export default function AppLogger() {
+    const params = useSearchParams();
+    const { data: appNames, error: appNameError } = useAppNames();
+    const { data: logResponse, loading: logsLoading, error: logsError } = useLogs(params);
 
-    const appNames = getAppNames();
-    const namespaces = getNameSpaces();
-    const errorCounts = getErrorCounts();
-    const logResponse = await getLogs(params);
-
+    if (appNameError || logsError) return <Error />
+    if (!logResponse) return <Loading />
     return (
-        <NavigationProvider>
+        <NavigationProvider loading={logsLoading}>
             <div className="h-screen grid grid-cols-[auto_minmax(0,1fr)] grid-rows-[auto_minmax(0,1fr)] gap-4 p-4 bg-linear-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
                 <div className="row-span-2 flex flex-col items-center">
                     <LogSidebar
                         appNames={appNames}
-                        namespaces={namespaces}
                     />
                 </div>
 
                 <div>
-                    <Suspense fallback={<ErrorPanelFallback />}>
-                        <ErrorPanel
-                            appNames={appNames}
-                            errorCounts={errorCounts}
-                        /> 
-                    </Suspense>
+                    <ErrorPanel
+                        appNames={appNames}
+                    />
                 </div>
 
                 <div className="col-start-2 row-start-2 min-h-0">

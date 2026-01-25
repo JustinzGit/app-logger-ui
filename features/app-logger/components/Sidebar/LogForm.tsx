@@ -6,6 +6,9 @@ import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
 import { parseDateTime } from "../../utils";
+import { useNameSpaces } from "../../actions";
+import { LogFormFallback } from "./LogFormFallback";
+import Error from "@/app/app-logger/error";
 
 const LIMITS = ['50', '100', '150', '200', '250'];
 const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
@@ -23,20 +26,14 @@ interface ILogFormData {
     excludedNamespaces: string[];
 }
 
-interface ILogFormProps {
-    appNames: Promise<string[]>;
-    namespaces: Promise<string[]>;
-}
+export default function LogForm({ appNames }: { appNames: string[] | null }) {
 
-export default function LogForm({ appNames: appNamePromise, namespaces: namespacePromise }: ILogFormProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
-
-    const appNames = use(appNamePromise);
-    const namespaces = use(namespacePromise);
+    const { data: namespaces, loading: namespacesLoading, error: namespaceError } = useNameSpaces();
 
     const today = new Date().toLocaleDateString('en-CA');
-    const { isPending, navigate, refresh } = useNavigationContext();
+    const { navigate, refresh, loading } = useNavigationContext();
 
     const getFormDataFromURL = (): ILogFormData => {
         const startDateTime = parseDateTime(searchParams.get('startDateTime'));
@@ -114,6 +111,8 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
         }
     }
 
+    if (namespaceError) return <Error />
+    if (namespacesLoading || !namespaces || !appNames)  return <LogFormFallback />
     return (
         <form onSubmit={handleSubmit} className="w-full">
             <div className="mb-2 flex justify-center text-sm font-semibold text-gray-700 dark:text-gray-200">
@@ -243,14 +242,14 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
             <div className="mt-3 pt-4 flex gap-2 border-t border-gray-200 dark:border-white/10">
                 <button
                     type="submit"
-                    disabled={isPending}
+                    disabled={loading}
                     className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
-                    {isPending ? "Searching…" : "Search"}
+                    {loading ? "Searching…" : "Search"}
                 </button>
 
                 <button
                     type="button"
-                    disabled={isPending}
+                    disabled={loading}
                     onClick={resetForm}
                     className="cursor-pointer text-sm flex-1 bg-baylor-blue-400 text-white py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
                     Reset

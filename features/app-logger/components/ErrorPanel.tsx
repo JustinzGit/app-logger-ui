@@ -2,29 +2,28 @@
 
 import { usePathname } from "next/navigation";
 import { useNavigationContext } from "./NavigationContext";
-import { use } from "react";
+import { useErrorCounts } from "../actions";
+import { ErrorPanelFallback } from "./ErrorPanelFallback";
 
-interface IErrorPanelProps {
-    appNames: Promise<string[]>;
-    errorCounts: Promise<{ app: string; count: number }[]>;
-}
-
-export function ErrorPanel({ errorCounts: errorCountPromise, appNames: appNamePromise }: IErrorPanelProps) {
+export function ErrorPanel({ appNames }: { appNames: string[] | null }) {
     const pathname = usePathname();
-    const appNames = use(appNamePromise);
-    const errorCounts = use(errorCountPromise);
     const { navigate } = useNavigationContext();
-
-    const countedApps = errorCounts.map(e => e.app);
-    const zeroCountApps = appNames.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
-    const displayCounts = [...errorCounts, ...zeroCountApps].sort((a, b) => b.count - a.count);
+    const { data: errorCounts, loading } = useErrorCounts();
 
     function showAppErrors(appName: string) {
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        navigate(`${pathname}?limit=100&logDay=${day}&startDateTime=${date}&apps=${appName}&levels=Error`);
+        navigate(`${pathname}?limit=50&logDay=${day}&startDateTime=${date}&apps=${appName}&levels=Error`);
     }
+
+    if (loading || !errorCounts || !appNames) {
+        return <ErrorPanelFallback />
+    }
+
+    const countedApps = errorCounts.map(e => e.app);
+    const zeroCountApps = appNames.filter(a => !countedApps.includes(a)).map(a => ({ app: a, count: 0 }));
+    const displayCounts = [...errorCounts, ...zeroCountApps].sort((a, b) => b.count - a.count);
 
     return (
         <div className="ml-1 mr-2 mt-2 h-24">

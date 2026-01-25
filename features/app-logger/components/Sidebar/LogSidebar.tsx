@@ -1,15 +1,10 @@
+'use client'
+
 import LogForm from "./LogForm";
 import LogSidebarFooter from "./LogSidebarFooter";
 import LogSidebarHeader from "./LogSidebarHeader";
-import { Suspense } from "react";
-import { LogFormFallback } from "./LogFormFallback";
 
-interface ILogSideBarProps {
-    appNames: Promise<string[]>;
-    namespaces: Promise<string[]>;
-}
-
-export default function LogSidebar({ appNames, namespaces }: ILogSideBarProps) {
+export default function LogSidebar({ appNames }: { appNames: string[] | null }) {
     return (
         <div className="mt-2 bg-white dark:bg-gray-800 w-75 h-full rounded-xl border border-gray-200 dark:border-gray-700 shadow-xl overflow-hidden">
             <div className="relative h-full flex flex-col">
@@ -18,12 +13,9 @@ export default function LogSidebar({ appNames, namespaces }: ILogSideBarProps) {
                 </div>
 
                 <div className="p-4 flex justify-center flex-1 overflow-y-auto">
-                    <Suspense fallback={<LogFormFallback />}>
-                        <LogForm
-                            appNames={appNames}
-                            namespaces={namespaces}
-                        />
-                    </Suspense>
+                    <LogForm
+                        appNames={appNames}
+                    />
                 </div>
                 <LogSidebarFooter />
             </div>
