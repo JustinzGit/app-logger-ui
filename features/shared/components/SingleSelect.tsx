@@ -29,8 +29,9 @@ export function SingleSelect({ label, items, selection, onSelection }: SingleSel
                 name={label}
                 value={selection}
                 onChange={handleChange}
-                className="peer cursor-pointer select-none appearance-none block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 pr-8 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10">
-                {items.map(item => <option key={item} value={item}>{item}</option>)}
+                className="peer cursor-pointer select-none appearance-none block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 pr-8 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
+                style={{ colorScheme: 'light dark' }}>
+                {items.map(item => <option key={item} value={item} style={{ backgroundColor: '#1f2937', color: '#ffffff' }}>{item}</option>)}
             </select>
 
             <ExpandMoreIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4 dark:text-gray-400" />

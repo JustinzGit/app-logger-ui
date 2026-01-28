@@ -54,7 +54,7 @@ export default function LogTable({ logs, onRowClick }: { logs: ILog[], onRowClic
                             key={log.id}
                             id={`log-row-${log.id}`}
                             onClick={() => onRowClick(index)}
-                            className={`hover:bg-gray-300 hover:cursor-pointer scroll-mt-12 ${shouldHighlight ? 'animate-flash' : ''}`}>
+                            className={`hover:bg-gray-300 dark:hover:bg-slate-700/50 hover:cursor-pointer scroll-mt-12 ${shouldHighlight ? 'animate-flash' : ''}`}>
 
                             <td className={`${baseRow} text-center w-30 pl-4 pr-3`}>{log.app}</td>
                             <td className={`${baseRow} text-center w-22.5`}>

@@ -57,7 +57,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
                 <div
                     title={selectedItems.join(', ')}
                     onClick={() => isSelected(!selected)}
-                    className={`${selected ? 'outline-2 outline-baylor-blue-100' : 'outline-1 outline-gray-300'} ${selectedItems.length > 0 ? 'pt-7 pb-1.5' : 'py-1.5'} h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 pr-10 pl-3 text-base text-gray-900 -outline-offset-1 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:*:bg-gray-800 dark:focus-visible:outline-baylor-blue-100"`}>
+                    className={`${selected ? 'outline-2 outline-baylor-blue-100' : 'outline-1 outline-gray-300'} ${selectedItems.length > 0 ? 'pt-7 pb-1.5' : 'py-1.5'} h-[54px] w-full min-w-0 cursor-pointer appearance-none rounded-md bg-gray-50 pr-10 pl-3 text-base text-gray-900 -outline-offset-1 focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 flex items-center dark:bg-white/5 dark:text-white dark:outline-white/10 dark:focus-visible:outline-baylor-blue-100"`}>
                     <span className="truncate whitespace-nowrap">{displayLabel}</span>
                 </div>
                 <ExpandMoreIcon className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 size-5 text-gray-500 sm:size-4 dark:text-gray-400" />
@@ -103,7 +103,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
                                         disableRipple
                                         checked={checked}
                                         onChange={() => toggleItem(item)}
-                                        sx={{ color: '#989898', padding: '4px', '&.Mui-checked': { color: '#0c2340' } }}
+                                        sx={{ color: '#989898', padding: '4px', '&.Mui-checked': { color: '#0c2340', '@media (prefers-color-scheme: dark)': { color: '#ededed' } } }}
                                     />
                                     <span title={item} className="ml-1 flex-1 whitespace-nowrap text-left">{item}</span>
                                 </label>
