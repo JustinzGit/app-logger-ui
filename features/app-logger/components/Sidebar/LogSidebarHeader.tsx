@@ -30,7 +30,6 @@ export default function LogSidebarHeader() {
                 />
                 {isPending && <div className="w-[150px] h-[150px] border-5 pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full border-baylor-blue-300 border-t-transparent animate-spin z-20" />}
             </div>
-            {isPending && <div className="absolute inset-0 animate-[shimmer_3s_ease-in-out_infinite] bg-linear-to-r from-transparent via-white/70 to-transparent rounded-lg" />}
         </div>
     );
 }
