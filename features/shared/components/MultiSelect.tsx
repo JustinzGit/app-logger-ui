@@ -14,9 +14,9 @@ interface IMultiSelectProps {
 }
 
 export function MultiSelect({ label, items, onSelection, selectedItems, searchable = false }: IMultiSelectProps) {
-    
+
     const selectableItems = items instanceof Promise ? use(items) : items;
-    
+
     const [selected, isSelected] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const rootRef = useRef<HTMLDivElement | null>(null);
@@ -34,6 +34,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
         const next = selectedItems.includes(item)
             ? selectedItems.filter(x => x !== item)
             : [...selectedItems, item];
+        setSearchQuery('');
         onSelection(next);
     }
 
@@ -45,6 +46,10 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
     const filteredItems = searchable && searchQuery
         ? selectableItems.filter(item => item.toLowerCase().includes(searchQuery.toLowerCase()))
         : selectableItems;
+
+    const sortedItems = [...filteredItems].sort((a, b) =>
+        Number(selectedItems.includes(b)) - Number(selectedItems.includes(a))
+    );
 
     return (
         <div ref={rootRef} className="mt-2 relative w-full min-w-0">
@@ -92,7 +97,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
                         </div>
                     )}
                     <div className="px-1 py-1 pb-1.5 space-y-1">
-                        {filteredItems.map((item, i) => {
+                        {sortedItems.map((item, i) => {
                             const checked = selectedItems.includes(item);
                             return (
                                 <label
