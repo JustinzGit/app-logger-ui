@@ -44,7 +44,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
         const sort = searchParams.get('sortDescending') === 'false' ? 'Ascending' : 'Descending';
         return {
             sort,
-            limit: searchParams.get('limit') || '100',
+            limit: searchParams.get('limit') || '50',
             startDate: startDateTime?.date || today,
             startTime: startDateTime?.time || '00:00',
             endDate: endDateTime?.date || '',
@@ -70,7 +70,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
     const resetForm = () => {
         setFormData({
             sort: 'Ascending',
-            limit: '100',
+            limit: '50',
             startDate: today,
             startTime: '00:00',
             endDate: '',
