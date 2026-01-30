@@ -14,7 +14,6 @@ export function useLogPagination(logResponse: ILogResponse) {
     const [cursorId, setCursorId] = useState(logResponse.cursorId);
 
     const loadMoreLogs = async () => {
-        debugger
         if (isFetching || !cursorId) return;
 
         try {
