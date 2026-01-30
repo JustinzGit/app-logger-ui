@@ -14,12 +14,15 @@ export function useLogPagination(logResponse: ILogResponse) {
     const [cursorId, setCursorId] = useState(logResponse.cursorId);
 
     const loadMoreLogs = async () => {
-        if (isFetching || !cursorId) return;
+        if (isFetching) return;
 
         try {
             setIsFetching(true);
             const params = new URLSearchParams(searchParams);
-            params.set('cursorId', cursorId.toString());
+            
+            if (cursorId) {
+                params.set('cursorId', cursorId.toString());
+            }
 
             const nextResponse = await getLogs(Object.fromEntries(params.entries()));
 
