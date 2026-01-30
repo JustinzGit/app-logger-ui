@@ -45,12 +45,6 @@ export function LogFormFallback() {
                 <div className="h-13 bg-gray-200 dark:bg-white/5 rounded flex items-center px-3">
                     <div className="text-xs text-gray-500 dark:text-gray-400">Start Time</div>
                 </div>
-                <div className="h-13 bg-gray-200 dark:bg-white/5 rounded flex items-center px-3">
-                    <div className="text-xs text-gray-500 dark:text-gray-400">End Date</div>
-                </div>
-                <div className="h-13 bg-gray-200 dark:bg-white/5 rounded flex items-center px-3">
-                    <div className="text-xs text-gray-500 dark:text-gray-400">End Time</div>
-                </div>
             </div>
 
             {/* Buttons (disabled to mirror real form) */}

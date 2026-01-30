@@ -204,40 +204,6 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
                         className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
                     />
                 </div>
-
-                <div className="relative">
-                    <label htmlFor="endDate" className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition peer-focus:text-baylor-blue-100 dark:text-gray-400">
-                        End Date
-                    </label>
-
-                    <input
-                        type="date"
-                        id="endDate"
-                        name="endDate"
-                        value={formData.endDate}
-                        onMouseDown={(e) => e.preventDefault()}
-                        onChange={(event) => updateField('endDate', event.target.value)}
-                        onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                        className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
-                    />
-                </div>
-
-                <div className="relative">
-                    <label htmlFor="endTime" className="pointer-events-none absolute left-3 top-2 text-xs text-gray-500 transition peer-focus:text-baylor-blue-100 dark:text-gray-400">
-                        End Time
-                    </label>
-
-                    <input
-                        type="time"
-                        id="endTime"
-                        name="endTime"
-                        value={formData.endTime}
-                        onMouseDown={(e) => e.preventDefault()}
-                        onChange={(event) => updateField('endTime', event.target.value)}
-                        onClick={(e) => { try { e.currentTarget.showPicker?.(); } catch { } }}
-                        className="cursor-pointer select-none peer block w-full rounded-md bg-gray-50 px-3 pt-7 pb-1.5 text-sm text-gray-900 outline outline-gray-300 focus:outline-2 focus:outline-baylor-blue-100 dark:bg-white/5 dark:text-white dark:outline-white/10"
-                    />
-                </div>
             </div>
 
             <div className="mt-3 pt-4 flex gap-2 border-t border-gray-200 dark:border-white/10">
