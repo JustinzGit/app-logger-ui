@@ -17,7 +17,6 @@ export function useLogPagination(logResponse: ILogResponse) {
         if (isFetching || !cursorId) return;
 
         try {
-            debugger
             setIsFetching(true);
             const params = new URLSearchParams(searchParams);
             params.set('cursorId', cursorId.toString());
