@@ -75,7 +75,7 @@ export default function Error() {
                     className="relative z-10 drop-shadow-[0_15px_45px_rgba(0,0,0,0.45)]"
                 />
                 <div className="absolute -bottom-10 px-4 py-2 text-center text-xs font-mono tracking-[0.35em] uppercase text-baylor-gray-100/90 bg-white/5 border border-baylor-blue-200/30 rounded-full shadow-[0_0_25px_rgba(56,130,246,0.25)] backdrop-blur">
-                    error detected // recovery in progress
+                    error detected
                 </div>
             </div>
         </div>
