@@ -20,6 +20,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
     const [selected, isSelected] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const rootRef = useRef<HTMLDivElement | null>(null);
+    const itemsContainerRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         const onPointerDown = (e: PointerEvent) => {
@@ -31,11 +32,12 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
     }, []);
 
     function toggleItem(item: string) {
-        const next = selectedItems.includes(item)
-            ? selectedItems.filter(x => x !== item)
-            : [...selectedItems, item];
+        const next = selectedItems.includes(item) ? selectedItems.filter(x => x !== item) : [...selectedItems, item];
         setSearchQuery('');
         onSelection(next);
+        if (itemsContainerRef.current) {
+            itemsContainerRef.current.scroll({ top: 0, behavior: 'smooth' });
+        }
     }
 
     const displayLabel = (() => {
@@ -70,6 +72,7 @@ export function MultiSelect({ label, items, onSelection, selectedItems, searchab
 
             {selected && (
                 <div
+                    ref={itemsContainerRef}
                     className="-translate-x-0.5 mt-2 scroll-bar fixed z-50 min-w-67 cursor-pointer rounded-md bg-gray-50 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 shadow-lg focus-visible:outline-2 focus-visible:-outline-offset-2 sm:text-sm/6 dark:bg-gray-900 dark:text-white dark:outline-white/10 max-h-56 overflow-y-auto">
                     {searchable && (
                         <div className="sticky top-0 z-10 dark:bg-gray-900 px-2 pt-1.5 pb-2">
