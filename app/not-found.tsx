@@ -35,7 +35,7 @@ export default function NotFound() {
                     />
                 </div>
                 <div className="mt-10 text-center">
-                    <a href="/" className="inline-block cursor-pointer text-sm px-6 bg-cyan-400 text-black py-2 rounded disabled:opacity-70 disabled:cursor-not-allowed">
+                    <a href="/" className="inline-block cursor-pointer text-sm px-6 bg-cyan-400 text-black py-2 rounded border-2 border-white disabled:opacity-70 disabled:cursor-not-allowed">
                         Escape Sauron
                     </a>
                 </div>
