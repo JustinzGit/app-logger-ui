@@ -41,7 +41,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
     const getFormDataFromURL = (): ILogFormData => {
         const startDateTime = parseDateTime(searchParams.get('startDateTime'));
         const endDateTime = parseDateTime(searchParams.get('endDateTime'));
-        const sort = searchParams.get('sortDescending') === 'false' ? 'Ascending' : 'Descending';
+        const sort = searchParams.get('sortAscending') === 'true' ? 'Ascending' : 'Descending';
         return {
             sort,
             limit: searchParams.get('limit') || '50',
@@ -100,7 +100,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
         params.set('limit', formData.limit);
         formData.apps.forEach(a => params.append('apps', a));
         formData.levels.forEach(l => params.append('levels', l));
-        params.set('sortDescending', formData.sort === 'Descending' ? 'true' : 'false');
+        params.set('sortAscending', formData.sort === 'Ascending' ? 'true' : 'false');
         formData.includedNamespaces.forEach(n => params.append('includedNamespaces', n));
         formData.excludedNamespaces.forEach(n => params.append('excludedNamespaces', n));
 
@@ -163,7 +163,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
 
                 <SingleSelect
                     label='Sort'
-                    items={['Descending', 'Ascending']}
+                    items={['Ascending', 'Descending']}
                     selection={formData.sort}
                     onSelection={(value) => updateField('sort', value as 'Descending' | 'Ascending')}
                 />

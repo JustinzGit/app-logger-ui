@@ -12,7 +12,7 @@ export default function LogSidebarHeader() {
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        const query = new URLSearchParams({ startDateTime: date, logDay: day, limit: '50', sortDescending: 'false' });
+        const query = new URLSearchParams({ startDateTime: date, logDay: day, limit: '50', sortAscending: 'true' });
         navigate(`${pathname}?${query.toString()}`);
     }
 

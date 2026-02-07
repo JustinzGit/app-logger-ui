@@ -23,7 +23,7 @@ export function ErrorPanel({ errorCounts: errorCountPromise, appNames: appNamePr
         const today = new Date();
         const day = today.getDate().toString();
         const date = today.toLocaleDateString("en-CA");
-        navigate(`${pathname}?limit=100&logDay=${day}&startDateTime=${date}&apps=${appName}&levels=Error`);
+        navigate(`${pathname}?limit=50&logDay=${day}&startDateTime=${date}&apps=${appName}&levels=Error`);
     }
 
     return (
