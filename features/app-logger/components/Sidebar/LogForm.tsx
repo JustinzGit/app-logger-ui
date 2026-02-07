@@ -1,26 +1,21 @@
 "use client"
 
-import { FormEvent, use, useEffect, useState } from "react";
+import { FormEvent, use, useEffect, useMemo, useState } from "react";
 import { useNavigationContext } from "../NavigationContext";
 import { usePathname, useSearchParams } from "next/navigation";
 import { SingleSelect } from "@/features/shared/components/SingleSelect";
 import { MultiSelect } from "@/features/shared/components/MultiSelect";
 import { parseDateTime } from "../../utils";
 
-const LIMITS = ['50', '100', '150', '200', '250'];
-const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
-
 interface ILogFormData {
-    sort: 'Descending' | 'Ascending';
     limit: string;
-    startDate: string;
-    startTime: string;
-    endDate: string;
-    endTime: string;
     apps: string[];
     levels: string[];
+    startDate: string;
+    startTime: string;
     includedNamespaces: string[];
     excludedNamespaces: string[];
+    sort: 'Descending' | 'Ascending';
 }
 
 interface ILogFormProps {
@@ -28,27 +23,38 @@ interface ILogFormProps {
     namespaces: Promise<string[]>;
 }
 
+const LIMITS = ['50', '100', '150', '200', '250'];
+const LEVELS = ["Information", "Warning", "Error", "Debug", "Verbose"];
+
+const DEFAULT_FORM_VALUES: ILogFormData = {
+    apps: [],
+    levels: [],
+    limit: '50',
+    sort: 'Ascending',
+    startDate: '',
+    startTime: '00:00',
+    includedNamespaces: [],
+    excludedNamespaces: [],
+};
+
 export default function LogForm({ appNames: appNamePromise, namespaces: namespacePromise }: ILogFormProps) {
     const pathname = usePathname();
     const searchParams = useSearchParams();
+    const { isPending, navigate, refresh } = useNavigationContext();
 
     const appNames = use(appNamePromise);
     const namespaces = use(namespacePromise);
 
-    const today = new Date().toLocaleDateString('en-CA');
-    const { isPending, navigate, refresh } = useNavigationContext();
+    const today = useMemo(() => new Date().toLocaleDateString('en-CA'), []);
 
     const getFormDataFromURL = (): ILogFormData => {
         const startDateTime = parseDateTime(searchParams.get('startDateTime'));
-        const endDateTime = parseDateTime(searchParams.get('endDateTime'));
-        const sort = searchParams.get('sortAscending') === 'true' ? 'Ascending' : 'Descending';
         return {
-            sort,
-            limit: searchParams.get('limit') || '50',
+            ...DEFAULT_FORM_VALUES,
+            sort: (searchParams.get('sortAscending') === 'false' ? 'Descending' : 'Ascending'),
+            limit: searchParams.get('limit') || DEFAULT_FORM_VALUES.limit,
             startDate: startDateTime?.date || today,
             startTime: startDateTime?.time || '00:00',
-            endDate: endDateTime?.date || '',
-            endTime: endDateTime?.time || '',
             apps: searchParams.getAll('apps'),
             levels: searchParams.getAll('levels'),
             includedNamespaces: searchParams.getAll('includedNamespaces'),
@@ -58,7 +64,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
 
     const [formData, setFormData] = useState<ILogFormData>(getFormDataFromURL());
 
-    // This ensures the form UI stays in sync with the URL if the user navigates history
+    // sync state with URL changes (browser back button, etc)
     useEffect(() => {
         setFormData(getFormDataFromURL());
     }, [searchParams, today]);
@@ -68,18 +74,7 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
     };
 
     const resetForm = () => {
-        setFormData({
-            sort: 'Ascending',
-            limit: '50',
-            startDate: today,
-            startTime: '00:00',
-            endDate: '',
-            endTime: '',
-            apps: [],
-            levels: [],
-            includedNamespaces: [],
-            excludedNamespaces: [],
-        });
+        setFormData({ ...DEFAULT_FORM_VALUES, startDate: today });
     };
 
     function handleSubmit(event: FormEvent) {
@@ -87,25 +82,19 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
         const params = new URLSearchParams();
 
         const startDateTime = formData.startDate ? `${formData.startDate}T${formData.startTime || '00:00'}` : null;
-        const endDateTime = formData.endDate ? `${formData.endDate}T${formData.endTime || '23:59'}` : null;
-
         if (startDateTime) params.set('startDateTime', startDateTime);
-        if (endDateTime) params.set('endDateTime', endDateTime);
-
-        if (!endDateTime && formData.startDate) {
-            const day = formData.startDate.split('-')[2];
-            if (day) params.set('logDay', day);
-        }
 
         params.set('limit', formData.limit);
+        params.set('sortAscending', formData.sort === 'Ascending' ? 'true' : 'false');
+
         formData.apps.forEach(a => params.append('apps', a));
         formData.levels.forEach(l => params.append('levels', l));
-        params.set('sortAscending', formData.sort === 'Ascending' ? 'true' : 'false');
         formData.includedNamespaces.forEach(n => params.append('includedNamespaces', n));
         formData.excludedNamespaces.forEach(n => params.append('excludedNamespaces', n));
 
         const newQueryString = params.toString();
         const currentQueryString = searchParams.toString();
+
         if (newQueryString === currentQueryString) {
             refresh();
         }
