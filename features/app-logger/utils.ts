@@ -38,11 +38,8 @@ export function extractJsonFromMessage(message: string): { text: string; json: s
 
 export function parseDateTime(datetime: string | null): { date: string; time: string } | null {
     if (!datetime) return null;
-    const parts = datetime.split('T');
-    if (parts.length !== 2) return null;
-    const date = parts[0];
-    const time = parts[1].substring(0, 5); 
-    return { date, time };
+    const [date, time] = datetime.split('T');
+    return { date, time: time ? time.substring(0, 5) : '' };
 }
 
 export const levelConfig: Record<LogLevel, { label: string; badgeColor: string }> = {
