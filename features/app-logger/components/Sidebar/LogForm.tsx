@@ -80,9 +80,13 @@ export default function LogForm({ appNames: appNamePromise, namespaces: namespac
     function handleSubmit(event: FormEvent) {
         event.preventDefault();
         const params = new URLSearchParams();
+        const { startDate, startTime } = formData;
 
-        const startDateTime = formData.startDate ? `${formData.startDate}T${formData.startTime || '00:00'}` : null;
-        if (startDateTime) params.set('startDateTime', startDateTime);
+        if (startDate) {
+            params.set('startDateTime', `${startDate}T${startTime || '00:00'}`);
+            const day = startDate.split('-')[2];
+            if (day) params.set('logDay', day);
+        }
 
         params.set('limit', formData.limit);
         params.set('sortAscending', formData.sort === 'Ascending' ? 'true' : 'false');
