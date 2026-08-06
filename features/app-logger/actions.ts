@@ -1,8 +1,9 @@
 import { SearchParams } from "next/dist/server/request/search-params";
 import { ILogResponse } from "@/features/app-logger/types";
 import { toQueryString } from "../shared/utils";
+import { appConfig } from "../../config";
 
-const BASE_URL = "http://localhost:5086/api/logging";
+const BASE_URL = appConfig.apiBaseUrl;
 
 export async function getLogs(params: SearchParams): Promise<ILogResponse> {
     const queryString = toQueryString(params);
